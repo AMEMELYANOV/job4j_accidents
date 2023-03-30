@@ -1,0 +1,38 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:insert="fragment/head :: head"></head>
+<body>
+<div th:insert="fragment/navbefore :: navbefore"></div>
+<div class="container mt-3">
+    <div class="card" style="width: 100%">
+        <div class="card-header">
+            Отредактировать инцидент
+        </div>
+        <div class="card-body">
+            <form th:action="@{/updateAccident}" th:object="${accident}" method="POST">
+                <table class="table">
+                    <input type="hidden" name="id" th:field="*{id}"/>
+                    <tr>
+                        <td>Наименование :</td>
+                        <td><input class="form-control" type="text" th:field="*{name}" name="name" required/></td>
+                    </tr>
+                    <tr>
+                        <td>Адрес :</td>
+                        <td><input class="form-control" type="text" th:field="*{address}" name="address" required/></td>
+                    </tr>
+                    <tr>
+                        <td>Описание :</td>
+                        <td><textarea class="form-control" th:field="*{text}" rows="8" maxlength="400"
+                                      name="description"
+                                      placeholder="Не больше 400 символов" required></textarea></td>
+                    </tr>
+                    <tr>
+                        <td><input type="submit" class="btn btn-secondary" value="Сохранить"/>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

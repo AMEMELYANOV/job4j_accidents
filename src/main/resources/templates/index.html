@@ -1,0 +1,36 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:insert="fragment/head :: head"></head>
+<body>
+<div th:insert="fragment/navbefore :: navbefore"></div>
+<div class="container">
+</div>
+<div class="container mt-3 pl-5">
+    <div class="mx-3 pl-3">
+        <h5>Добро пожаловать, Гость!</h5>
+        Это сервис по регистрации автонарушений.
+    </div>
+</div>
+<div class="container mt-3">
+    <div class="card" style="width: 100%">
+        <div class="card-header">
+            <div class="row ml-4 fw-bold">
+                <div class="col-1 text-justify font-weight-bold">id</div>
+                <div class="col-3 text-justify font-weight-bold">Наименование</div>
+                <div class="col-5 text-justify font-weight-bold">Описание</div>
+                <div class="col-3 text-justify font-weight-bold">Адрес</div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3 pb-3 ml-4 border-bottom" th:each="accident: ${accidents}">
+                <div class="col-1 text-justify" th:text="${accident.id}"></div>
+                <div class="col-3 text-justify"><a style="color:black" th:href="@{/editAccident(accidentId=${accident.id})}"
+                                                   th:text="${accident.name}"/></div>
+                <div class="col-5 text-justify" th:text="${accident.text}"></div>
+                <div class="col-3 text-justify" th:text="${accident.address}"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
