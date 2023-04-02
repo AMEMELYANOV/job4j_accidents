@@ -1,6 +1,7 @@
 package ru.job4j.accidents.repository;
 
 import ru.job4j.accidents.model.Accident;
+import ru.job4j.accidents.model.AccidentType;
 
 import java.util.List;
 import java.util.Optional;
@@ -46,4 +47,11 @@ public interface AccidentRepository {
      * @return Optional.ofNullable() с объектом accident
      */
     Optional<Accident> findById(int id);
+
+    /**
+     * Возвращает список всех типов инцидентов.
+     *
+     * @return список всех типов инцидентов
+     */
+    List<AccidentType> findAllAccidentTypes();
 }

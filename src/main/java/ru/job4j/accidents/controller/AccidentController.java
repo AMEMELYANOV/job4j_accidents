@@ -8,9 +8,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.accidents.model.Accident;
+import ru.job4j.accidents.model.AccidentType;
 import ru.job4j.accidents.service.AccidentService;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Контроллер для стартовой страницы приложения
@@ -41,10 +44,13 @@ public class AccidentController {
     /**
      * Возвращает страницу добавления инцидента.
      *
+     * @param model модель
      * @return страница добавления инцидента
      */
     @GetMapping("/addAccident")
-    public String viewAddAccident() {
+    public String viewAddAccident(Model model) {
+        List<AccidentType> types = accidentService.findAllAccidentTypes();
+        model.addAttribute("types", types);
         return "accident/addAccident";
     }
 

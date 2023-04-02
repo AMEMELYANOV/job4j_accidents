@@ -35,4 +35,9 @@ public class Accident {
      * Адрес инцидента
      */
     private String address;
+
+    /**
+     * Тип инцидента
+     */
+    private AccidentType type;
 }

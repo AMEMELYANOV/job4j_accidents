@@ -27,6 +27,14 @@
                                       placeholder="Не больше 400 символов" required></textarea></td>
                     </tr>
                     <tr>
+                        <td>Тип :</td>
+                        <td> <select class="form-control" id="type.id"  name="type.id">
+                            <option th:each="type: ${types}"
+                                    th:text="${type.name}"
+                                    th:value="${type.id}"></option>
+                        </select></td>
+                    </tr>
+                    <tr>
                         <td><input type="submit" class="btn btn-secondary" value="Сохранить"/>
                     </tr>
                 </table>

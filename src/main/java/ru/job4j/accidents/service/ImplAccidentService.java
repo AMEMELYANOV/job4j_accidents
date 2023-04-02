@@ -3,6 +3,7 @@ package ru.job4j.accidents.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.Accident;
+import ru.job4j.accidents.model.AccidentType;
 import ru.job4j.accidents.repository.AccidentRepository;
 
 import java.util.List;
@@ -82,5 +83,15 @@ public class ImplAccidentService implements AccidentService {
                 () -> new NoSuchElementException(
                         String.format("Инцидент c id = %d не найден", id))
         );
+    }
+
+    /**
+     * Возвращает список всех типов инцидентов.
+     *
+     * @return список всех типов инцидентов
+     */
+    @Override
+    public List<AccidentType> findAllAccidentTypes() {
+        return accidentRepository.findAllAccidentTypes();
     }
 }

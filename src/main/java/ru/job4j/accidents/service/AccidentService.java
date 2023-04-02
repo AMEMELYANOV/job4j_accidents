@@ -1,6 +1,7 @@
 package ru.job4j.accidents.service;
 
 import ru.job4j.accidents.model.Accident;
+import ru.job4j.accidents.model.AccidentType;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -48,4 +49,11 @@ public interface AccidentService {
      * @exception NoSuchElementException если инцидент не найден
      */
     Accident findById(int id);
+
+    /**
+     * Возвращает список всех типов инцидентов.
+     *
+     * @return список всех типов инцидентов
+     */
+    List<AccidentType> findAllAccidentTypes();
 }
