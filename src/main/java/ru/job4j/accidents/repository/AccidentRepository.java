@@ -2,9 +2,11 @@ package ru.job4j.accidents.repository;
 
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.model.AccidentType;
+import ru.job4j.accidents.model.Rule;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Хранилище задач
@@ -54,4 +56,29 @@ public interface AccidentRepository {
      * @return список всех типов инцидентов
      */
     List<AccidentType> findAllAccidentTypes();
+
+    /**
+     * Возвращает список всех статей инцидентов.
+     *
+     * @return список всех статей инцидентов
+     */
+    List<Rule> findAllAccidentRules();
+
+    /**
+     * Возвращает тип инцидента по идентификатору.
+     * Возвращает Optional, может содержать null,
+     * если тип не найден.
+     *
+     * @param id идентификатор типа инцидента
+     * @return  @return Optional.ofNullable() с объектом accidentType
+     */
+    Optional<AccidentType> findTypeById(int id);
+
+    /**
+     * Возвращает множество статей инцидента по идентификаторам.
+     *
+     * @param ids строковый массив идентификаторов статей
+     * @return множество статей
+     */
+    Set<Rule> findRulesByIds(String[] ids);
 }

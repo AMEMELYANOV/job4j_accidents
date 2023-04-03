@@ -9,7 +9,7 @@
             Отредактировать инцидент
         </div>
         <div class="card-body">
-            <form th:action="@{/updateAccident}" th:object="${accident}" method="POST">
+            <form th:action="@{/saveAccident}" th:object="${accident}" method="POST">
                 <table class="table">
                     <input type="hidden" name="id" th:field="*{id}"/>
                     <tr>
@@ -28,10 +28,18 @@
                     </tr>
                     <tr>
                         <td>Тип :</td>
-                        <td> <select class="form-control" id="type.id"  name="type.id">
+                        <td> <select class="form-control" id="type.id"  name="type.id" required>
                             <option th:each="type: ${types}"
                                     th:text="${type.name}"
                                     th:value="${type.id}"></option>
+                        </select></td>
+                    </tr>
+                    <tr>
+                        <td>Статьи :</td>
+                        <td> <select class="form-control" id="rIds" name="rIds" multiple required>
+                            <option th:each="rule: ${rules}"
+                                    th:text="${rule.name}"
+                                    th:value="${rule.id}"></option>
                         </select></td>
                     </tr>
                     <tr>

@@ -2,6 +2,7 @@ package ru.job4j.accidents.service;
 
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.model.AccidentType;
+import ru.job4j.accidents.model.Rule;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -41,6 +42,15 @@ public interface AccidentService {
     Accident update(Accident accident);
 
     /**
+     * Выполняет выбор методов класса для сохранения или обновления инцидента.
+     *
+     * @param accident сохраняемый инцидент
+     * @param ids массив идентификаторов статей
+     * @return инцидент при успешном сохранении или обновлении
+     */
+    Accident createOrUpdateAccident(Accident accident, String[] ids);
+
+    /**
      * Выполняет поиск инцидента по идентификатору. При успешном нахождении возвращает
      * инцидент, иначе выбрасывает исключение.
      *
@@ -56,4 +66,11 @@ public interface AccidentService {
      * @return список всех типов инцидентов
      */
     List<AccidentType> findAllAccidentTypes();
+
+    /**
+     * Возвращает список всех статей инцидентов.
+     *
+     * @return список всех статей инцидентов
+     */
+    List<Rule> findAllAccidentRules();
 }

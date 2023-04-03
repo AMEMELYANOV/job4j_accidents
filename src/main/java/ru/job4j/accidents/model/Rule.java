@@ -3,7 +3,7 @@ package ru.job4j.accidents.model;
 import lombok.*;
 
 /**
- * Модель данных тип инцидента
+ * Модель данных статья
  *
  * @author Alexander Emelyanov
  * @version 1.0
@@ -13,16 +13,16 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class AccidentType {
+public class Rule {
 
     /**
-     * Идентификатор типа инцидента
+     * Идентификатор статьи
      */
     @EqualsAndHashCode.Include
     private int id;
 
     /**
-     * Наименование типа инцидента
+     * Наименование статьи
      */
     private String name;
 }

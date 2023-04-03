@@ -4,11 +4,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.model.AccidentType;
+import ru.job4j.accidents.model.Rule;
 import ru.job4j.accidents.repository.AccidentRepository;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.Set;
 
 /**
  * Реализация сервиса по работе с инцидентами
@@ -45,8 +46,7 @@ public class ImplAccidentService implements AccidentService {
      */
     @Override
     public Accident create(Accident accident) {
-        Optional<Accident> accident1 = accidentRepository.create(accident);
-        return accident1.orElseThrow(
+        return accidentRepository.create(accident).orElseThrow(
                 () -> new IllegalArgumentException(
                         String.format("Ошибка в сохранении инцидента с наименованием - %s",
                                 accident.getName()))
@@ -67,6 +67,31 @@ public class ImplAccidentService implements AccidentService {
                         String.format("Ошибка в обновлении инцидента с id = %d",
                                 accident.getId()))
         );
+    }
+
+    /**
+     * Выполняет выбор методов класса для сохранения или обновления инцидента.
+     *
+     * @param accident сохраняемый инцидент
+     * @param ids массив идентификаторов статей
+     * @return инцидент при успешном сохранении или обновлении
+     */
+    @Override
+    public Accident createOrUpdateAccident(Accident accident, String[] ids) {
+        int typeId = accident.getType().getId();
+        AccidentType type = accidentRepository.findTypeById(typeId).orElseThrow(
+                () -> new NoSuchElementException(String.format(
+                        "Тип нарушения с id = %d не найдена", typeId))
+        );
+        Set<Rule> rules = accidentRepository.findRulesByIds(ids);
+        accident.setType(type);
+        accident.setRules(rules);
+        if (accident.getId() == 0) {
+            accident = create(accident);
+        } else {
+            accident = update(accident);
+        }
+        return accident;
     }
 
     /**
@@ -93,5 +118,15 @@ public class ImplAccidentService implements AccidentService {
     @Override
     public List<AccidentType> findAllAccidentTypes() {
         return accidentRepository.findAllAccidentTypes();
+    }
+
+    /**
+     * Возвращает список всех статей инцидентов.
+     *
+     * @return список всех статей инцидентов
+     */
+    @Override
+    public List<Rule> findAllAccidentRules() {
+        return accidentRepository.findAllAccidentRules();
     }
 }

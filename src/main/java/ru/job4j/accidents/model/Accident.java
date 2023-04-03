@@ -2,6 +2,8 @@ package ru.job4j.accidents.model;
 
 import lombok.*;
 
+import java.util.Set;
+
 /**
  * Модель данных инцидент
  *
@@ -9,10 +11,10 @@ import lombok.*;
  * @version 1.0
  */
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Builder
 public class Accident {
 
     /**
@@ -40,4 +42,9 @@ public class Accident {
      * Тип инцидента
      */
     private AccidentType type;
+
+    /**
+     * Множество статей
+     */
+    private Set<Rule> rules;
 }
