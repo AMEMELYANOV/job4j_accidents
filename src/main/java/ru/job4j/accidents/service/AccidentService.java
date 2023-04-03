@@ -6,6 +6,7 @@ import ru.job4j.accidents.model.Rule;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 /**
  * Сервис по работе с инцидентами
@@ -28,7 +29,6 @@ public interface AccidentService {
      *
      * @param accident сохраняемый инцидент
      * @return инцидент при успешном сохранении
-     * @exception IllegalArgumentException если сохранение инцидента не произошло
      */
     Accident create(Accident accident);
 
@@ -37,7 +37,6 @@ public interface AccidentService {
      *
      * @param accident обновляемый инцидент
      * @return инцидент при успешном обновлении
-     * @exception NoSuchElementException если инцидент не найден
      */
     Accident update(Accident accident);
 
@@ -73,4 +72,21 @@ public interface AccidentService {
      * @return список всех статей инцидентов
      */
     List<Rule> findAllAccidentRules();
+
+    /**
+     * Возвращает правило по идентификатору.
+     *
+     * @param id идентификатор правила
+     * @return правило
+     */
+    Rule findRuleById(int id);
+
+    /**
+     * Возвращает список всех статей инцидента
+     * по списку идентификаторов.
+     *
+     * @param ids список идентификаторов инцидента
+     * @return список всех статей инцидента
+     */
+    Set<Rule> findRulesByIds(String[] ids);
 }

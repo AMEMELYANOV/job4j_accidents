@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.accidents.model.Accident;
-import ru.job4j.accidents.service.AccidentService;
+import ru.job4j.accidents.service.ImplAccidentJpaService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
@@ -25,11 +25,12 @@ public class AccidentController {
     /**
      * Объект для доступа к методам AccidentService
      */
-    AccidentService accidentService;
+    private final ImplAccidentJpaService accidentService;
 
     /**
      * Возвращает страницу списка инцидентов.
      *
+     * @param model модель
      * @return страница списка инцидентов
      */
     @GetMapping({"/", "accidents"})
@@ -53,9 +54,8 @@ public class AccidentController {
     }
 
     /**
-     * Получает с формы создания инцидента объект и передает
-     * для дальнейшего сохранения в хранилище данных методу
-     * сервисного слоя {@link AccidentService#createOrUpdateAccident(Accident, String[])}.
+     * Получает от форм создания или редактирования объект инцидента и передает
+     * для дальнейшего сохранения или обновления в хранилище данных.
      *
      * @param accident инцидент
      * @param request запрос пользователя
@@ -71,6 +71,8 @@ public class AccidentController {
     /**
      * Возвращает страницу редактирования инцидента.
      *
+     * @param accidentId идентификатор инцидента
+     * @param model модель
      * @return страница редактирования инцидента
      */
     @GetMapping("/editAccident")

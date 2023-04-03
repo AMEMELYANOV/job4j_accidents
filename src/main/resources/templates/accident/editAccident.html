@@ -22,7 +22,7 @@
                     </tr>
                     <tr>
                         <td>Описание :</td>
-                        <td><textarea class="form-control" th:field="*{text}" rows="8" maxlength="400"
+                        <td><textarea class="form-control" th:field="*{description}" rows="8" maxlength="400"
                                       name="description"
                                       placeholder="Не больше 400 символов" required></textarea></td>
                     </tr>
@@ -35,7 +35,7 @@
                         </select></td>
                     </tr>
                     <tr>
-                        <td>Статьи :</td>
+                        <td>Правила :</td>
                         <td> <select class="form-control" id="rIds" name="rIds" multiple required>
                             <option th:each="rule: ${rules}"
                                     th:text="${rule.name}"

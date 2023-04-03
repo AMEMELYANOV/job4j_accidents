@@ -1,13 +1,13 @@
 package ru.job4j.accidents.repository;
 
 import org.springframework.data.repository.CrudRepository;
-import ru.job4j.accidents.model.Accident;
+import ru.job4j.accidents.model.AccidentType;
 
 /**
- * Хранилище инцидентов
+ * Хранилище типов инцидентов
  * @see ru.job4j.accidents.model.Rule
  * @author Alexander Emelyanov
  * @version 1.0
  */
-public interface AccidentRepository extends CrudRepository<Accident, Integer> {
+public interface AccidentTypeRepository extends CrudRepository<AccidentType, Integer> {
 }

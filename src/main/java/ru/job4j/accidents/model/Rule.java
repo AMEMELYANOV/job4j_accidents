@@ -2,8 +2,10 @@ package ru.job4j.accidents.model;
 
 import lombok.*;
 
+import javax.persistence.*;
+
 /**
- * Модель данных статья
+ * Модель данных правило
  *
  * @author Alexander Emelyanov
  * @version 1.0
@@ -13,16 +15,20 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Entity
+@Table(name = "rules")
 public class Rule {
 
     /**
-     * Идентификатор статьи
+     * Идентификатор правила
      */
     @EqualsAndHashCode.Include
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     /**
-     * Наименование статьи
+     * Наименование правила
      */
     private String name;
 }

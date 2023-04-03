@@ -8,18 +8,16 @@ import ru.job4j.accidents.model.Rule;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 /**
  * Реализация хранилища инцидентов в памяти
- * с использованием ConcurrentHashMap
  *
  * @author Alexander Emelyanov
  * @version 1.0
- * @see ru.job4j.accidents.repository.AccidentRepository
+ * @see ru.job4j.accidents.model.Accident
  */
 @Repository
-public class MemoryAccidentRepository implements AccidentRepository {
+public class MemoryAccidentRepository {
 
     /**
      * Хранилище инцидентов
@@ -45,20 +43,20 @@ public class MemoryAccidentRepository implements AccidentRepository {
      * Конструктор, инициализирует начальное состояние хранилища
      */
     public MemoryAccidentRepository() {
-        Rule rule1 = Rule.builder().id(1).name("Статья. 1").build();
-        Rule rule2 = Rule.builder().id(2).name("Статья. 2").build();
-        Rule rule3 = Rule.builder().id(3).name("Статья. 3").build();
+        Rule rule1 = Rule.builder().id(1).name("Правило. 1").build();
+        Rule rule2 = Rule.builder().id(2).name("Правило. 2").build();
+        Rule rule3 = Rule.builder().id(3).name("Правило. 3").build();
         rules.add(rule1);
         rules.add(rule2);
         rules.add(rule3);
-        types.add(new AccidentType(1, "Две машины"));
-        types.add(new AccidentType(2, "Машина и человек"));
-        types.add(new AccidentType(3, "Машина и велосипед"));
-        accidents.put(1, Accident.builder().id(1).name("name1").address("address1").text("text1")
+        types.add(new AccidentType(1, "Несколько автомобилей"));
+        types.add(new AccidentType(2, "Автомобиль и человек"));
+        types.add(new AccidentType(3, "Автомобиль и велосипед"));
+        accidents.put(1, Accident.builder().id(1).name("name1").address("address1").description("description1")
                 .type(types.get(0)).rules(Set.of(rule1, rule2)).build());
-        accidents.put(2, Accident.builder().id(2).name("name2").address("address2").text("text2")
+        accidents.put(2, Accident.builder().id(2).name("name2").address("address2").description("description2")
                 .type(types.get(1)).rules(Set.of(rule2, rule3)).build());
-        accidents.put(3, Accident.builder().id(3).name("name3").address("address3").text("text3")
+        accidents.put(3, Accident.builder().id(3).name("name3").address("address3").description("description3")
                 .type(types.get(2)).rules(Set.of(rule1, rule3)).build());
         idx = new AtomicInteger(3);
     }
@@ -68,7 +66,6 @@ public class MemoryAccidentRepository implements AccidentRepository {
      *
      * @return список всех задач
      */
-    @Override
     public List<Accident> findAll() {
         return accidents.values().stream().toList();
     }
@@ -80,7 +77,6 @@ public class MemoryAccidentRepository implements AccidentRepository {
      * @param accident инцидент
      * @return Optional.ofNullable() с сохраненным объектом accident
      */
-    @Override
     public Optional<Accident> create(Accident accident) {
         int id = idx.incrementAndGet();
         accident.setId(id);
@@ -94,7 +90,6 @@ public class MemoryAccidentRepository implements AccidentRepository {
      * @param accident инцидент
      * @return Optional.ofNullable() с обновленным объектом accident
      */
-    @Override
     public Optional<Accident> update(Accident accident) {
         accidents.put(accident.getId(), accident);
         return Optional.ofNullable(accidents.get(accident.getId()));
@@ -108,7 +103,6 @@ public class MemoryAccidentRepository implements AccidentRepository {
      * @param id идентификатор инцидента
      * @return Optional.ofNullable() с объектом accident
      */
-    @Override
     public Optional<Accident> findById(int id) {
         return Optional.ofNullable(accidents.get(id));
     }
@@ -118,7 +112,6 @@ public class MemoryAccidentRepository implements AccidentRepository {
      *
      * @return список всех типов инцидентов
      */
-    @Override
     public List<AccidentType> findAllAccidentTypes() {
         return types;
     }
@@ -128,7 +121,6 @@ public class MemoryAccidentRepository implements AccidentRepository {
      *
      * @return список всех статей инцидентов
      */
-    @Override
     public List<Rule> findAllAccidentRules() {
         return rules;
     }
@@ -139,25 +131,19 @@ public class MemoryAccidentRepository implements AccidentRepository {
      * если тип не найден.
      *
      * @param id идентификатор типа инцидента
-     * @return  @return Optional.ofNullable() с объектом accidentType
+     * @return  Optional.ofNullable() с объектом accidentType
      */
-    @Override
     public Optional<AccidentType> findTypeById(int id) {
         return types.stream().filter(type -> type.getId() == id).findFirst();
     }
 
     /**
-     * Возвращает множество статей инцидента по идентификаторам.
+     * Возвращает правило по идентификатору.
      *
-     * @param ids строковый массив идентификаторов статей
-     * @return множество статей
+     * @param id идентификатор правила
+     * @return правило
      */
-    @Override
-    public Set<Rule> findRulesByIds(String[] ids) {
-       return Arrays.stream(ids).map(Integer::parseInt)
-                .map(id -> rules.stream().filter(rule -> rule.getId() == id).findFirst().orElseThrow(
-                        () -> new NoSuchElementException(String.format("Статья с id = %d не найдена", id))
-                ))
-                .collect(Collectors.toSet());
+    public Optional<Rule> findRuleById(int id) {
+       return rules.stream().filter(type -> type.getId() == id).findFirst();
     }
 }

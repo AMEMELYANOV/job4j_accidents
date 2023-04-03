@@ -6,25 +6,35 @@ import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.model.AccidentType;
 import ru.job4j.accidents.model.Rule;
 import ru.job4j.accidents.repository.AccidentRepository;
+import ru.job4j.accidents.repository.AccidentTypeRepository;
+import ru.job4j.accidents.repository.RuleRepository;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Реализация сервиса по работе с инцидентами
- * @see ru.job4j.accidents.service.AccidentService
  * @author Alexander Emelyanov
  * @version 1.0
  */
-@Service
 @AllArgsConstructor
-public class ImplAccidentService implements AccidentService {
+@Service
+public class ImplAccidentJpaService implements AccidentService {
 
     /**
      * Объект для доступа к методам AccidentRepository
      */
-    AccidentRepository accidentRepository;
+    private final AccidentRepository accidentRepository;
+
+    /**
+     * Объект для доступа к методам AccidentTypeRepository
+     */
+    private final AccidentTypeRepository accidentTypeRepository;
+
+    /**
+     * Объект для доступа к методам RuleRepository
+     */
+    private final RuleRepository ruleRepository;
 
     /**
      * Возвращает список всех инцидентов.
@@ -33,7 +43,11 @@ public class ImplAccidentService implements AccidentService {
      */
     @Override
     public List<Accident> findAll() {
-        return accidentRepository.findAll();
+        List<Accident> result = new ArrayList<>();
+        accidentRepository.findAll().forEach(result::add);
+        return result.stream()
+                .sorted(Comparator.comparing(Accident::getId))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -42,15 +56,10 @@ public class ImplAccidentService implements AccidentService {
      *
      * @param accident сохраняемый инцидент
      * @return инцидент при успешном сохранении
-     * @exception IllegalArgumentException если сохранение инцидента не произошло
      */
     @Override
     public Accident create(Accident accident) {
-        return accidentRepository.create(accident).orElseThrow(
-                () -> new IllegalArgumentException(
-                        String.format("Ошибка в сохранении инцидента с наименованием - %s",
-                                accident.getName()))
-        );
+        return accidentRepository.save(accident);
     }
 
     /**
@@ -58,15 +67,10 @@ public class ImplAccidentService implements AccidentService {
      *
      * @param accident обновляемый инцидент
      * @return инцидент при успешном обновлении
-     * @exception NoSuchElementException если инцидент не найден
      */
     @Override
     public Accident update(Accident accident) {
-        return accidentRepository.update(accident).orElseThrow(
-                () -> new IllegalArgumentException(
-                        String.format("Ошибка в обновлении инцидента с id = %d",
-                                accident.getId()))
-        );
+        return accidentRepository.save(accident);
     }
 
     /**
@@ -79,11 +83,11 @@ public class ImplAccidentService implements AccidentService {
     @Override
     public Accident createOrUpdateAccident(Accident accident, String[] ids) {
         int typeId = accident.getType().getId();
-        AccidentType type = accidentRepository.findTypeById(typeId).orElseThrow(
+        AccidentType type = accidentTypeRepository.findById(typeId).orElseThrow(
                 () -> new NoSuchElementException(String.format(
                         "Тип нарушения с id = %d не найдена", typeId))
         );
-        Set<Rule> rules = accidentRepository.findRulesByIds(ids);
+        Set<Rule> rules = findRulesByIds(ids);
         accident.setType(type);
         accident.setRules(rules);
         if (accident.getId() == 0) {
@@ -117,7 +121,9 @@ public class ImplAccidentService implements AccidentService {
      */
     @Override
     public List<AccidentType> findAllAccidentTypes() {
-        return accidentRepository.findAllAccidentTypes();
+        List<AccidentType> result = new ArrayList<>();
+        accidentTypeRepository.findAll().forEach(result::add);
+        return result;
     }
 
     /**
@@ -127,6 +133,35 @@ public class ImplAccidentService implements AccidentService {
      */
     @Override
     public List<Rule> findAllAccidentRules() {
-        return accidentRepository.findAllAccidentRules();
+        List<Rule> result = new ArrayList<>();
+        ruleRepository.findAll().forEach(result::add);
+        return result;
+    }
+
+    /**
+     * Возвращает правило по идентификатору.
+     *
+     * @param id идентификатор правила
+     * @return правило
+     */
+    @Override
+    public Rule findRuleById(int id) {
+        return ruleRepository.findById(id).orElseThrow(
+                () -> new NoSuchElementException(
+                        String.format("Правило c id = %d не найдена", id))
+        );
+    }
+
+    /**
+     * Возвращает список всех правил инцидента
+     * по списку идентификаторов.
+     *
+     * @param ids список идентификаторов инцидента
+     * @return список всех статей инцидента
+     */
+    @Override
+    public Set<Rule> findRulesByIds(String[] ids) {
+        return Arrays.stream(ids).map(Integer::parseInt)
+                .map(this::findRuleById).collect(Collectors.toSet());
     }
 }
