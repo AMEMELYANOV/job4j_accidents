@@ -2,6 +2,7 @@ package ru.job4j.accidents;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  * Основной класс для запуска приложения
@@ -18,5 +19,9 @@ public class Application {
      public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
         System.out.println("Go to http://localhost:8080");
+
+         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+         String pwd = encoder.encode("111");
+         System.out.println(pwd);
     }
 }

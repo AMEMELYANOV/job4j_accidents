@@ -1,6 +1,7 @@
 package ru.job4j.accidents.controller;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 
 /**
- * Контроллер для стартовой страницы приложения
+ * Контроллер для работы с инцидентами
+ * @see ru.job4j.accidents.model.Accident
  * @author Alexander Emelyanov
  * @version 1.0
  */
@@ -33,9 +35,11 @@ public class AccidentController {
      * @param model модель
      * @return страница списка инцидентов
      */
-    @GetMapping({"/", "accidents"})
+    @GetMapping("index")
     public String index(Model model) {
         Collection<Accident> accidents = accidentService.findAll();
+        model.addAttribute("user", SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal());
         model.addAttribute("accidents", accidents);
         return "index";
     }
@@ -48,9 +52,28 @@ public class AccidentController {
      */
     @GetMapping("/addAccident")
     public String viewAddAccident(Model model) {
+        model.addAttribute("user", SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal());
         model.addAttribute("types", accidentService.findAllAccidentTypes());
         model.addAttribute("rules", accidentService.findAllAccidentRules());
         return "accident/addAccident";
+    }
+
+    /**
+     * Возвращает страницу редактирования инцидента.
+     *
+     * @param accidentId идентификатор инцидента
+     * @param model модель
+     * @return страница редактирования инцидента
+     */
+    @GetMapping("/editAccident")
+    public String viewEditAccident(@RequestParam("accidentId") int accidentId, Model model) {
+        model.addAttribute("user", SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal());
+        model.addAttribute("accident", accidentService.findById(accidentId));
+        model.addAttribute("types", accidentService.findAllAccidentTypes());
+        model.addAttribute("rules", accidentService.findAllAccidentRules());
+        return "accident/editAccident";
     }
 
     /**
@@ -65,21 +88,6 @@ public class AccidentController {
     public String save(@ModelAttribute Accident accident, HttpServletRequest request) {
         String[] ids = request.getParameterValues("rIds");
         accidentService.createOrUpdateAccident(accident, ids);
-        return "redirect:/accidents";
-    }
-
-    /**
-     * Возвращает страницу редактирования инцидента.
-     *
-     * @param accidentId идентификатор инцидента
-     * @param model модель
-     * @return страница редактирования инцидента
-     */
-    @GetMapping("/editAccident")
-    public String viewEditAccident(@RequestParam("accidentId") int accidentId, Model model) {
-        model.addAttribute("accident", accidentService.findById(accidentId));
-        model.addAttribute("types", accidentService.findAllAccidentTypes());
-        model.addAttribute("rules", accidentService.findAllAccidentRules());
-        return "accident/editAccident";
+        return "redirect:/index";
     }
 }

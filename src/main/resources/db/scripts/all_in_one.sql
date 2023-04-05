@@ -42,6 +42,30 @@ COMMENT ON TABLE accidents_rules IS 'Таблица связей инциден�
 COMMENT ON COLUMN accidents_rules.accident_id IS 'Ссылка на инцидент';
 COMMENT ON COLUMN accidents_rules.rule_id IS 'Ссылка на правило';
 
+CREATE TABLE authorities (
+  id SERIAL PRIMARY KEY,
+  authority VARCHAR NOT NULL UNIQUE
+);
+
+COMMENT ON TABLE authorities IS 'Роли';
+COMMENT ON COLUMN authorities.id IS 'Идентификатор роли';
+COMMENT ON COLUMN authorities.authority IS 'Роль';
+
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  username VARCHAR NOT NULL unique,
+  password VARCHAR NOT NULL,
+  enabled BOOLEAN DEFAULT TRUE,
+  authority_id INT NOT NULL REFERENCES authorities(id)
+);
+
+COMMENT ON TABLE users IS 'Пользователи';
+COMMENT ON COLUMN users.id IS 'Идентификатор пользователя';
+COMMENT ON COLUMN users.username IS 'Имя пользователя';
+COMMENT ON COLUMN users.password IS 'Пароль пользователя';
+COMMENT ON COLUMN users.enabled IS 'Статус пользователя';
+COMMENT ON COLUMN users.authority_id IS 'Ссылка на роль пользователя';
+
 INSERT INTO accident_types (name) VALUES ('Несколько автомобилей');
 INSERT INTO accident_types (name) VALUES ('Автомобиль и человек');
 INSERT INTO accident_types (name) VALUES ('Автомобиль и велосипед');
@@ -68,3 +92,10 @@ INSERT INTO accidents_rules (accident_id, rule_id) VALUES (2, 2);
 INSERT INTO accidents_rules (accident_id, rule_id) VALUES (2, 3);
 INSERT INTO accidents_rules (accident_id, rule_id) VALUES (3, 1);
 INSERT INTO accidents_rules (accident_id, rule_id) VALUES (3, 3);
+
+INSERT INTO authorities (authority) VALUES ('ROLE_USER');
+INSERT INTO authorities (authority) VALUES ('ROLE_ADMIN');
+
+INSERT INTO users (username, enabled, password, authority_id)
+VALUES ('root', true, '$2a$10$wY1twJhMQjGVxv4y5dBC5ucCBlzkzT4FIGa4FNB/pS9GaXC2wm9/W',
+(SELECT id FROM authorities WHERE authority = 'ROLE_ADMIN'));
