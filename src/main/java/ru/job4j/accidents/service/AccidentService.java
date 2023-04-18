@@ -89,4 +89,12 @@ public interface AccidentService {
      * @return список всех статей инцидента
      */
     Set<Rule> findRulesByIds(String[] ids);
+
+    /**
+     * Выполняет поиск инцидента по идентификатору.
+     *
+     * @param id идентификатор задачи
+     * @return задачу при успешном нахождении
+     */
+    Accident findAccidentById(int id);
 }

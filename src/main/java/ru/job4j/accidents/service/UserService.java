@@ -18,10 +18,10 @@ public class UserService {
     private final UserRepository userRepository;
 
     /**
-     * Возвращает пользователя.
+     * Выполняет поиск пользователя по имени.
      *
      * @param username имя пользователя
-     * @return пользователь
+     * @return пользователя при успешном нахождении
      */
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);

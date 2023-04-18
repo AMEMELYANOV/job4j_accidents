@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS accident_types (
    id SERIAL PRIMARY KEY,
-   name varchar UNIQUE NOT NULL
+   name VARCHAR UNIQUE NOT NULL
 );
 
 COMMENT ON TABLE accident_types IS 'Типы инцидентов';

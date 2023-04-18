@@ -146,4 +146,14 @@ public class MemoryAccidentRepository {
     public Optional<Rule> findRuleById(int id) {
        return rules.stream().filter(type -> type.getId() == id).findFirst();
     }
+
+    /**
+     * Возвращает инцидент по идентификатору.
+     *
+     * @param id идентификатор инцидента
+     * @return инцидент
+     */
+    public Accident findAccidentById(int id) {
+        return accidents.get(id);
+    }
 }

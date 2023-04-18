@@ -1,0 +1,73 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:insert="fragment/head :: head"></head>
+<body>
+<div th:insert="fragment/navlogin :: navlogin"></div>
+<div class="container mt-3">
+    <div class="card" style="width: 100%">
+        <div class="card-header">
+            <b>Подробное описание инцидента</b>
+        </div>
+        <div class="card-body justify-content-center">
+            <div class="row mb-3 ml-4">
+                <div class="col-2 text-justify font-weight-bold">Наименование</div>
+                <div class="col-4 text-justify font-weight-bold">Подробное описание</div>
+                <div class="col text-justify font-weight-bold">Дата и время</div>
+                <div class="col text-justify font-weight-bold">Адрес</div>
+            </div>
+            <div class="row mb-6 ml-4">
+                <div class="col-2" th:text="${accident.name}"></div>
+                <div class="col-4 text-justify" th:text="${accident.description}"></div>
+<!--                <div class="col text-justify" th:text="${#temporals.format(accident.created, 'HH:mm dd.MM.yyyy')}"></div>-->
+                <div class="col text-justify">
+                    <div class="col-2" th:text="${accident.address}"></div>
+                </div>
+            </div>
+            <div class="row mb-3 ml-4 mt-4">
+                <div class="col-2 text-justify font-weight-bold">Пользователь</div>
+                <div class="col-4 text-justify font-weight-bold">Тип</div>
+                <div class="col text-justify font-weight-bold">Правило</div>
+                <div class="col text-justify font-weight-bold">Статус</div>
+            </div>
+            <div class="row mb-5 ml-4">
+<!--                <div class="col-2 text-justify" th:text="${accident.user.username}"></div>-->
+                <div class="col-4 text-justify" th:text="${accident.type}"></div>
+                <div class="col-2 text-start">
+                    <ul class="mb-1" th:each="rule: ${accident.rules}">
+                        <li class="text-left " th:text="${rule.name}"></li>
+                    </ul>
+                </div>
+                <div class="col-4 text-justify" th:text="${accident.status}"></div>
+                </div>
+            </div>
+<!--            <div th:if="${user.username} == ${accident.user.username}">-->
+<!--                <div class="row mb-3 ml-4 mt-6">-->
+<!--                    <div class="col-6 text-justify font-weight-bold">Действия:</div>-->
+<!--                </div>-->
+<!--                <div class="row mb-4 ml-4 text-justify">-->
+<!--                    <div class="col-auto">-->
+<!--                        <form th:action="@{/taskDone}" method="get">-->
+<!--                            <input type="hidden" name="taskId" th:value="${task.id}"/>-->
+<!--                            <button type="submit" class="btn btn-secondary" style="width: 150px;">Выполнено</button>-->
+<!--                        </form>-->
+<!--                    </div>-->
+<!--                    <div class="col-auto">-->
+<!--                        <form th:action="@{/editTask}" method="get">-->
+<!--                            <input type="hidden" name="taskId" th:value="${task.id}"/>-->
+<!--                            <button type="submit" class="btn btn-secondary" style="width: 150px;">Редактировать</button>-->
+<!--                        </form>-->
+<!--                    </div>-->
+<!--                    <div class="col-auto">-->
+<!--                        <form th:action="@{/deleteTask}" method="get">-->
+<!--                            <input type="hidden" name="taskId" th:value="${task.id}"/>-->
+<!--                            <button type="submit" class="btn btn-secondary" style="width: 150px;">Удалить</button>-->
+<!--                        </form>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>

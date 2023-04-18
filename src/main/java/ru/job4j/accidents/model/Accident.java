@@ -5,6 +5,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 /**
@@ -63,4 +64,16 @@ public class Accident {
             joinColumns = { @JoinColumn(name = "accident_id") },
             inverseJoinColumns = { @JoinColumn(name = "rule_id") })
     private Set<Rule> rules;
+
+    /**
+     * Статус инцидента
+     */
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "status")
+    private Status status;
+
+    /**
+     * Дата и время инцидента
+     */
+    private LocalDateTime created;
 }

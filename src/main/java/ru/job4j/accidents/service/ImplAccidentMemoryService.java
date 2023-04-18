@@ -156,4 +156,15 @@ public class ImplAccidentMemoryService implements AccidentService {
         return Arrays.stream(ids).map(Integer::parseInt)
                 .map(this::findRuleById).collect(Collectors.toSet());
     }
+
+    /**
+     * Выполняет поиск инцидента по идентификатору.
+     *
+     * @param id идентификатор задачи
+     * @return задачу при успешном нахождении
+     */
+    @Override
+    public Accident findAccidentById(int id) {
+        return accidentRepository.findAccidentById(id);
+    }
 }

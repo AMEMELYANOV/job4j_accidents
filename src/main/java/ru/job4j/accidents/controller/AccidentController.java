@@ -12,13 +12,16 @@ import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.service.ImplAccidentJpaService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 
 /**
  * Контроллер для работы с инцидентами
- * @see ru.job4j.accidents.model.Accident
+ *
  * @author Alexander Emelyanov
  * @version 1.0
+ * @see ru.job4j.accidents.model.Accident
  */
 @Controller
 @AllArgsConstructor
@@ -63,7 +66,7 @@ public class AccidentController {
      * Возвращает страницу редактирования инцидента.
      *
      * @param accidentId идентификатор инцидента
-     * @param model модель
+     * @param model      модель
      * @return страница редактирования инцидента
      */
     @GetMapping("/editAccident")
@@ -81,13 +84,33 @@ public class AccidentController {
      * для дальнейшего сохранения или обновления в хранилище данных.
      *
      * @param accident инцидент
-     * @param request запрос пользователя
+     * @param request  запрос пользователя
      * @return редирект на страницу списка инцидентов
      */
     @PostMapping("/saveAccident")
-    public String save(@ModelAttribute Accident accident, HttpServletRequest request) {
+    public String save(@RequestParam("dateTime") String dateTime,
+            @ModelAttribute Accident accident, HttpServletRequest request) {
+        accident.setCreated(LocalDateTime.parse(dateTime));
         String[] ids = request.getParameterValues("rIds");
         accidentService.createOrUpdateAccident(accident, ids);
         return "redirect:/index";
+    }
+
+    /**
+     * Обрабатывает GET запрос, возвращает страницу с подробной
+     * информацией об инциденте.
+     *
+     * @param accidentId идентификатор инцидента
+     * @param model      модель
+     * @param request    запрос пользователя
+     * @return страница с подробной информацией об инциденте
+     */
+    @GetMapping("/accidentDetails{accidentId}")
+    public String getAccidentDetails(@RequestParam(value = "accidentId") int accidentId,
+                                     Model model, HttpServletRequest request) {
+        model.addAttribute("user", SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal());
+        model.addAttribute("accident", accidentService.findAccidentById(accidentId));
+        return "accident/accidentDetails";
     }
 }

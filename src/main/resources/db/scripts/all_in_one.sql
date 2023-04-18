@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS accident_types (
    id SERIAL PRIMARY KEY,
-   name varchar UNIQUE NOT NULL
+   name VARCHAR UNIQUE NOT NULL
 );
 
 COMMENT ON TABLE accident_types IS 'Типы инцидентов';
@@ -9,7 +9,7 @@ COMMENT ON COLUMN accident_types.name IS 'Наименование типа';
 
 CREATE TABLE IF NOT EXISTS rules (
    id SERIAL PRIMARY KEY,
-   name varchar UNIQUE NOT NULL
+   name VARCHAR UNIQUE NOT NULL
 );
 
 COMMENT ON TABLE rules IS 'Правила инцидентов';
@@ -18,10 +18,12 @@ COMMENT ON COLUMN rules.name IS 'Наименование правила';
 
 CREATE TABLE IF NOT EXISTS accidents (
    id SERIAL PRIMARY KEY,
-   name varchar NOT NULL,
-   description varchar NOT NULL,
-   address varchar NOT NULL,
+   name VARCHAR NOT NULL,
+   description VARCHAR NOT NULL,
+   address VARCHAR NOT NULL,
    accident_type_id INT NOT NULL,
+   status VARCHAR DEFAULT 'ACCEPTED',
+   created TIMESTAMP NOT NULL,
    FOREIGN KEY (accident_type_id) REFERENCES accident_types(id)
 );
 
@@ -31,6 +33,8 @@ COMMENT ON COLUMN accidents.name IS 'Наименование инцидента
 COMMENT ON COLUMN accidents.description IS 'Описание инцидента';
 COMMENT ON COLUMN accidents.address IS 'Адрес инцидента';
 COMMENT ON COLUMN accidents.accident_type_id IS 'Ссылка на тип инцидента';
+COMMENT ON COLUMN accidents.status IS 'Статус инцидента';
+COMMENT ON COLUMN accidents.created IS 'Дата и время инцидента';
 
 CREATE TABLE IF NOT EXISTS accidents_rules (
    accident_id INT NOT NULL REFERENCES accidents(id),
@@ -74,17 +78,15 @@ INSERT INTO rules (name) VALUES ('Правило. 1');
 INSERT INTO rules (name) VALUES ('Правило. 2');
 INSERT INTO rules (name) VALUES ('Правило. 3');
 
-INSERT INTO accidents (name, description, address, accident_type_id)
-    VALUES ('ДТП лекгкового автомобиля с велосипедистом', 'При проезде на красный сигнал светофора автомобиль
-    марки Ford прибегнул к экстренному торможению и совершил наезд на велосипедиста, двигавшегося в поперечном
-    направлении', 'г. Москва, ул. Свободы, д. 68', 3);
-INSERT INTO accidents (name, description, address, accident_type_id)
-    VALUES ('Наезд легкового автомобиля на пешехода', 'Автомобиль Lada Приора, при проезде пешеходного перехода,
-     не предоставил преимущество пешеходу, совершив на него наезд', 'г. Москва, пр. Фрунзе, д. 103', 2);
-INSERT INTO accidents (name, description, address, accident_type_id)
-    VALUES ('ДТП с грузовым автомобилем и легковым', 'Автомобиль ГАЗ-3221 не соблюдал дистанцию и при остановке на
-    на перекрестке на запрещающий сигнал светофора, произвел столкновение с автомобилем Kia',
-        'г. Москва, ул. Папанина, д. 14', 1);
+INSERT INTO accidents (name, description, address, accident_type_id, created)
+    VALUES ('ДТП легкового автомобиля с велосипедистом', 'При проезде на красный сигнал светофора автомобиль марки Ford прибегнул к экстренному торможению и совершил наезд на велосипедиста, двигавшегося в поперечном направлении',
+    'г. Москва, ул. Свободы, д. 68', 3, timestamp '2023-01-10 00:51:14');
+INSERT INTO accidents (name, description, address, accident_type_id, created)
+    VALUES ('Наезд легкового автомобиля на пешехода', 'Автомобиль Lada Приора, при проезде пешеходного перехода, не предоставил преимущество пешеходу, совершив на него наезд',
+    'г. Москва, пр. Фрунзе, д. 103', 2, timestamp '2023-02-15 00:17:35');
+INSERT INTO accidents (name, description, address, accident_type_id, created)
+    VALUES ('ДТП с грузовым автомобилем и легковым', 'Автомобиль ГАЗ-3221 не соблюдал дистанцию и при остановке на перекрестке на запрещающий сигнал светофора, произвел столкновение с автомобилем Kia',
+    'г. Москва, ул. Папанина, д. 14', 1, timestamp '2023-03-01 00:10:11');
 
 INSERT INTO accidents_rules (accident_id, rule_id) VALUES (1, 1);
 INSERT INTO accidents_rules (accident_id, rule_id) VALUES (1, 2);
@@ -95,7 +97,15 @@ INSERT INTO accidents_rules (accident_id, rule_id) VALUES (3, 3);
 
 INSERT INTO authorities (authority) VALUES ('ROLE_USER');
 INSERT INTO authorities (authority) VALUES ('ROLE_ADMIN');
+INSERT INTO authorities (authority) VALUES ('ROLE_INSPECTOR');
+
 
 INSERT INTO users (username, enabled, password, authority_id)
-VALUES ('root', true, '$2a$10$wY1twJhMQjGVxv4y5dBC5ucCBlzkzT4FIGa4FNB/pS9GaXC2wm9/W',
+VALUES ('root', true, '$2a$10$JMfHNfUXe5crLcU/vbEt9.oQ4vh0ZkClcXI8POPMq/ItMm4W4nwlu',
 (SELECT id FROM authorities WHERE authority = 'ROLE_ADMIN'));
+INSERT INTO users (username, enabled, password, authority_id)
+VALUES ('user', true, '$2a$10$JMfHNfUXe5crLcU/vbEt9.oQ4vh0ZkClcXI8POPMq/ItMm4W4nwlu',
+(SELECT id FROM authorities WHERE authority = 'ROLE_ADMIN'));
+INSERT INTO users (username, enabled, password, authority_id)
+VALUES ('insp', true, '$2a$10$JMfHNfUXe5crLcU/vbEt9.oQ4vh0ZkClcXI8POPMq/ItMm4W4nwlu',
+(SELECT id FROM authorities WHERE authority = 'ROLE_INSPECTOR'));

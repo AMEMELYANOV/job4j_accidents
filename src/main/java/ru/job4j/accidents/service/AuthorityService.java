@@ -21,10 +21,10 @@ public class AuthorityService {
     private final AuthorityRepository authorityRepository;
 
     /**
-     * Возвращает роль пользователя.
+     * Выполняет поиск роли по наименованию.
      *
      * @param authority наименование роли
-     * @return роль пользователя
+     * @return роль при успешном нахождении
      */
     public Authority findByAuthority(String authority) {
         return authorityRepository.findByAuthority(authority);

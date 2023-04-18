@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS rules (
    id SERIAL PRIMARY KEY,
-   name varchar UNIQUE NOT NULL
+   name VARCHAR UNIQUE NOT NULL
 );
 
 COMMENT ON TABLE rules IS 'Правило инцидентов';
