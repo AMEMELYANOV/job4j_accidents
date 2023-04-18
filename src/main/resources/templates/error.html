@@ -1,0 +1,19 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:insert="fragment/head :: head"></head>
+<body th:with="httpStatus=${T(org.springframework.http.HttpStatus).valueOf(#response.status)}">
+<div th:insert="fragment/navbefore :: navbefore"></div>
+<div class="container mt-3">
+    <div class="card" style="width: 100%">
+        <div class="card-header">
+            В работе приложения произошла ошибка
+        </div>
+        <div class="card-body">
+            <h1 th:text="|${httpStatus} - ${httpStatus.reasonPhrase}|">404</h1>
+            <p th:utext="${errorMessage}">Error java.lang.NullPointerException</p>
+            <a href="index.html" th:href="@{/index}">Вернуться к списку инцидентов</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
