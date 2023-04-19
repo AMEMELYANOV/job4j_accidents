@@ -3,10 +3,11 @@ CREATE TABLE IF NOT EXISTS accidents (
    name VARCHAR NOT NULL,
    description VARCHAR NOT NULL,
    address VARCHAR NOT NULL,
-   accident_type_id INT NOT NULL,
-   status VARCHAR DEFAULT 'ACCEPTED',
+   accident_type_id INT NOT NULL REFERENCES accident_types(id),
+   status VARCHAR DEFAULT 'NEW',
    created TIMESTAMP NOT NULL,
-   FOREIGN KEY (accident_type_id) REFERENCES accident_types(id)
+   accident_date_time TIMESTAMP NOT NULL,
+   user_id int NOT NULL REFERENCES users(id)
 );
 
 COMMENT ON TABLE accidents IS 'Инциденты';
@@ -16,4 +17,6 @@ COMMENT ON COLUMN accidents.description IS 'Описание инцидента'
 COMMENT ON COLUMN accidents.address IS 'Адрес инцидента';
 COMMENT ON COLUMN accidents.accident_type_id IS 'Ссылка на тип инцидента';
 COMMENT ON COLUMN accidents.status IS 'Статус инцидента';
-COMMENT ON COLUMN accidents.created IS 'Дата и время инцидента';
+COMMENT ON COLUMN accidents.created IS 'Дата и время заведения или редактирования в приложении';
+COMMENT ON COLUMN accidents.accident_date_time IS 'Дата и время инцидента';
+COMMENT ON COLUMN accidents.user_id IS 'Пользователь инцидента';

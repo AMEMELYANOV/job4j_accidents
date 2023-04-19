@@ -7,5 +7,5 @@ package ru.job4j.accidents.model;
  * @version 1.0
  */
 public enum Status {
-    ACCEPTED, REJECTED, CLOSED
+    ACCEPTED, REJECTED, CLOSED, NEW
 }

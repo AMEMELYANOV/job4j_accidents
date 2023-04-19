@@ -9,15 +9,15 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-item nav-link" th:href="@{/index}">Список инцидентов</a>
+                    <a class="nav-item nav-link" th:href="@{/index}">Инциденты</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-item nav-link" th:href="@{/addAccident}">Добавить инцидент</a>
+                    <a class="nav-item nav-link" th:href="@{/addAccident}">Добавить</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-item nav-link" th:href="@{/userEdit}">Редактировать профиль</a>
+                    <a class="nav-item nav-link" th:href="@{/userEdit}">Профиль</a>
                 </li>
                 <li th:if="${user.username} == null" class="nav-item">
                     <a class="nav-link" th:href="@{/login}">Войти</a>

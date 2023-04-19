@@ -73,7 +73,20 @@ public class Accident {
     private Status status;
 
     /**
+     * Дата и время заведения или редактирования в приложении
+     */
+    private LocalDateTime created = LocalDateTime.now();
+
+    /**
      * Дата и время инцидента
      */
-    private LocalDateTime created;
+    @Column(name = "accident_date_time")
+    private LocalDateTime accidentDateTime;
+
+    /**
+     * Пользователь инцидента
+     */
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }
