@@ -26,10 +26,6 @@
         <div class="card-body">
             <div class="row mb-3 pb-3 ml-4 border-bottom" th:each="accident: ${accidents}">
                 <div class="col-1 text-justify" th:text="${accident.id}"></div>
-<!--                <div class="col-2 text-justify">-->
-<!--                    <a style="color:black" th:href="@{/editAccident(accidentId=${accident.id})}"-->
-<!--                       th:text="${accident.name}"></a>-->
-<!--                </div>-->
                 <div class="col-2 text-justify">
                     <a style="color:black" th:href="@{/accidentDetails(accidentId=${accident.id})}"
                        th:text="${accident.name}"></a>

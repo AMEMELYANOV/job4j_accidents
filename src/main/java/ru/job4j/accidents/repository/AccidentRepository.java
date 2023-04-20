@@ -3,8 +3,6 @@ package ru.job4j.accidents.repository;
 import org.springframework.data.repository.CrudRepository;
 import ru.job4j.accidents.model.Accident;
 
-import java.util.Optional;
-
 /**
  * Хранилище инцидентов
  * @see ru.job4j.accidents.model.Accident

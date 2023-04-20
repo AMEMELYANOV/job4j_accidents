@@ -1,5 +1,6 @@
 package ru.job4j.accidents.service;
 
+import ru.job4j.accidents.dto.FileDto;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.model.AccidentType;
 import ru.job4j.accidents.model.Rule;
@@ -30,7 +31,7 @@ public interface AccidentService {
      * @param accident сохраняемый инцидент
      * @return инцидент при успешном сохранении
      */
-    Accident create(Accident accident);
+    Accident create(Accident accident, FileDto image);
 
     /**
      * Выполняет обновление инцидента.
@@ -38,7 +39,7 @@ public interface AccidentService {
      * @param accident обновляемый инцидент
      * @return инцидент при успешном обновлении
      */
-    Accident update(Accident accident);
+    Accident update(Accident accident, FileDto image);
 
     /**
      * Выполняет выбор методов класса для сохранения или обновления инцидента.
@@ -47,7 +48,7 @@ public interface AccidentService {
      * @param ids массив идентификаторов статей
      * @return инцидент при успешном сохранении или обновлении
      */
-    Accident createOrUpdateAccident(Accident accident, String[] ids);
+    Accident createOrUpdateAccident(Accident accident, String[] ids, FileDto image);
 
     /**
      * Выполняет поиск инцидента по идентификатору. При успешном нахождении возвращает
@@ -97,4 +98,6 @@ public interface AccidentService {
      * @return задачу при успешном нахождении
      */
     Accident findAccidentById(int id);
+
+    void deleteById(int id);
 }

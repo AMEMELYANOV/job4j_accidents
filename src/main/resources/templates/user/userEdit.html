@@ -4,7 +4,7 @@
 <body>
 <div th:insert="fragment/navlogin :: navlogin"></div>
 <div class="container mt-3">
-    <div class="card" style="width: 800px">
+    <div class="card" style="width: 500px">
         <div class="card-header">
             Редактировать профиль
         </div>
@@ -16,38 +16,24 @@
                 <div th:text="${errorMessage}"></div>
             </div>
             <form th:action="@{/userEdit}" method="POST" th:object="${user}">
-                <table class="table">
-                    <tr>
-                        <div class="form-group">
-                            <td>Имя пользователя</td>
-                            <td><input type="text" class="form-control" name="username" th:field="*{username}" readonly>
-                            </td>
-                        </div>
-                    </tr>
-                    <tr>
-                        <div class="form-group">
-                            <td>Введите старый пароль</td>
-                            <td><input type="password" class="form-control" name="oldPassword" required></td>
-                        </div>
-                    </tr>
-                    <tr>
-                        <div class="form-group">
-                            <td>Новый пароль</td>
-                            <td><input type="password" class="form-control" name="password" th:field="*{password}"
-                                       required>
-                            </td>
-                        </div>
-                    </tr>
-                    <tr>
-                        <td>
-                            <button type="submit" class="btn btn-secondary px-2">Сохранить</button>
-                        </td>
-                    </tr>
-                </table>
+                <div class="form-group">
+                    <label for="username">Имя пользователя</label>
+                    <input type="text" class="form-control" name="username" th:field="*{username}" id="username">
+                </div>
+
+                <div class="form-group">
+                    <label for="oldPassword">Введите старый пароль</label>
+                    <input type="password" class="form-control" name="oldPassword" id="oldPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Новый пароль</label>
+                    <input type="password" class="form-control" name="password" th:field="*{password}" id="password"
+                           required>
+                </div>
+                <button type="submit" class="btn btn-secondary px-2">Сохранить</button>
             </form>
         </div>
     </div>
-</div>
 </div>
 </body>
 </html>

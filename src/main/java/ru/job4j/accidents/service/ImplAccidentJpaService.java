@@ -1,19 +1,21 @@
 package ru.job4j.accidents.service;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import ru.job4j.accidents.model.Accident;
-import ru.job4j.accidents.model.AccidentType;
-import ru.job4j.accidents.model.Rule;
+import ru.job4j.accidents.dto.FileDto;
+import ru.job4j.accidents.model.*;
 import ru.job4j.accidents.repository.AccidentRepository;
 import ru.job4j.accidents.repository.AccidentTypeRepository;
 import ru.job4j.accidents.repository.RuleRepository;
+import ru.job4j.accidents.repository.UserRepository;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 /**
  * Реализация сервиса по работе с инцидентами
+ *
  * @author Alexander Emelyanov
  * @version 1.0
  */
@@ -37,6 +39,12 @@ public class ImplAccidentJpaService implements AccidentService {
     private final RuleRepository ruleRepository;
 
     /**
+     * Объект для доступа к методам FileService
+     */
+    private final FileService fileService;
+    private final UserRepository userRepository;
+
+    /**
      * Возвращает список всех инцидентов.
      *
      * @return список всех инцидентов
@@ -58,7 +66,8 @@ public class ImplAccidentJpaService implements AccidentService {
      * @return инцидент при успешном сохранении
      */
     @Override
-    public Accident create(Accident accident) {
+    public Accident create(Accident accident, FileDto image) {
+        saveNewFile(accident, image);
         return accidentRepository.save(accident);
     }
 
@@ -69,31 +78,50 @@ public class ImplAccidentJpaService implements AccidentService {
      * @return инцидент при успешном обновлении
      */
     @Override
-    public Accident update(Accident accident) {
-        return accidentRepository.save(accident);
+    public Accident update(Accident accident, FileDto image) {
+        int oldFileId = accident.getFileId();
+        saveNewFile(accident, image);
+        Accident savedAccident = accidentRepository.save(accident);
+        fileService.deleteById(oldFileId);
+        return savedAccident;
+    }
+
+    /**
+     * Выполняет сохранение файла изображения и установку поля fileId у accident.
+     *
+     * @param accident инцидент
+     * @param image файл изображения
+     */
+    private void saveNewFile(Accident accident, FileDto image) {
+        File file = fileService.save(image);
+        accident.setFileId(file.getId());
     }
 
     /**
      * Выполняет выбор методов класса для сохранения или обновления инцидента.
      *
      * @param accident сохраняемый инцидент
-     * @param ids массив идентификаторов статей
+     * @param ids      массив идентификаторов статей
      * @return инцидент при успешном сохранении или обновлении
      */
     @Override
-    public Accident createOrUpdateAccident(Accident accident, String[] ids) {
+    public Accident createOrUpdateAccident(Accident accident, String[] ids, FileDto image) {
+        User user = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         int typeId = accident.getType().getId();
         AccidentType type = accidentTypeRepository.findById(typeId).orElseThrow(
                 () -> new NoSuchElementException(String.format(
                         "Тип нарушения с id = %d не найдена", typeId))
         );
         Set<Rule> rules = findRulesByIds(ids);
+
+        accident.setUser(user);
         accident.setType(type);
         accident.setRules(rules);
         if (accident.getId() == 0) {
-            accident = create(accident);
+            accident.setStatus(Status.NEW);
+            accident = create(accident, image);
         } else {
-            accident = update(accident);
+            accident = update(accident, image);
         }
         return accident;
     }
@@ -104,7 +132,7 @@ public class ImplAccidentJpaService implements AccidentService {
      *
      * @param id идентификатор инцидента
      * @return инцидент при успешном нахождении
-     * @exception NoSuchElementException если инцидент не найден
+     * @throws NoSuchElementException если инцидент не найден
      */
     @Override
     public Accident findById(int id) {
@@ -174,5 +202,12 @@ public class ImplAccidentJpaService implements AccidentService {
     @Override
     public Accident findAccidentById(int id) {
         return accidentRepository.findAccidentById(id);
+    }
+
+    @Override
+    public void deleteById(int id) {
+        Accident accidentFromDB = findById(id);
+        accidentRepository.deleteById(id);
+        fileService.deleteById(accidentFromDB.getFileId());
     }
 }

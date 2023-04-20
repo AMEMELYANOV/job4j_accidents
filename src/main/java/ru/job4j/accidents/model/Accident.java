@@ -3,6 +3,7 @@ package ru.job4j.accidents.model;
 import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -81,6 +82,7 @@ public class Accident {
      * Дата и время инцидента
      */
     @Column(name = "accident_date_time")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime accidentDateTime;
 
     /**
@@ -89,4 +91,9 @@ public class Accident {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    /**
+     * Идентификатор файла
+     */
+    private Integer fileId;
 }

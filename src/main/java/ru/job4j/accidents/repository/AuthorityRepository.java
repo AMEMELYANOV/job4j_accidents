@@ -4,9 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import ru.job4j.accidents.model.Authority;
 
-import java.util.NoSuchElementException;
-import java.util.Optional;
-
 /**
  * Хранилище ролей
  *

@@ -4,10 +4,11 @@ CREATE TABLE IF NOT EXISTS accidents (
    description VARCHAR NOT NULL,
    address VARCHAR NOT NULL,
    accident_type_id INT NOT NULL REFERENCES accident_types(id),
-   status VARCHAR DEFAULT 'NEW',
+   status VARCHAR,
    created TIMESTAMP NOT NULL,
    accident_date_time TIMESTAMP NOT NULL,
-   user_id int NOT NULL REFERENCES users(id)
+   user_id INT NOT NULL REFERENCES users(id),
+   file_id INT REFERENCES files(id)
 );
 
 COMMENT ON TABLE accidents IS 'Инциденты';
@@ -20,3 +21,4 @@ COMMENT ON COLUMN accidents.status IS 'Статус инцидента';
 COMMENT ON COLUMN accidents.created IS 'Дата и время заведения или редактирования в приложении';
 COMMENT ON COLUMN accidents.accident_date_time IS 'Дата и время инцидента';
 COMMENT ON COLUMN accidents.user_id IS 'Пользователь инцидента';
+COMMENT ON COLUMN accidents.file_id IS 'Файл изображения инцидента';

@@ -15,11 +15,11 @@
                 <div class="col text-justify font-weight-bold">Дата и время</div>
                 <div class="col text-justify font-weight-bold">Адрес</div>
             </div>
-            <div class="row mb-6 ml-4">
+            <div class="row mb-5 ml-4">
                 <div class="col-3" th:text="${accident.name}"></div>
                 <div class="col-4 text-justify" th:text="${accident.description}"></div>
                 <div class="col text-justify"
-                     th:text="${#temporals.format(accident.created, 'dd.MM.yyyy HH:mm')}"></div>
+                     th:text="${#temporals.format(accident.accidentDateTime, 'dd.MM.yyyy HH:mm')}"></div>
                 <div class="col text-justify" th:text="${accident.address}"></div>
             </div>
             <div class="row mb-3 ml-4 mt-4">
@@ -43,14 +43,30 @@
                 </div>
                 <div class="col text-justify" th:text="${accident.user.username}"></div>
             </div>
+
+            <div class="row mb-3 ml-4 mt-4">
+                <div class="col-7 text-justify font-weight-bold">Фотография</div>
+                <div class="col-5 text-justify font-weight-bold">Действия пользователя</div>
+            </div>
             <div class="row mb-5 ml-4">
                 <div class="col-7 mb-3" style="text-align: right;">
-<!--                    <img class="img-thumbnail ml-0 pl-0" th:if="${advert.filename} != ''"-->
-<!--                         th:src="@{/img/{filename}(filename = ${advert.filename})}"-->
-<!--                         width="510px" height="345px">         -->
-                    <img class="img-thumbnail ml-0 pl-0" width="510px" height="345px">
+                    <img th:src="@{/files/{fileId}(fileId=*{accident.fileId})}" class="rounded float-left" alt="No image">
+                </div>
+
+                <div class="col-auto">
+                    <form th:action="@{/editAccident}" method="GET">
+                        <input type="hidden" name="accidentId" th:value="${accident.id}"/>
+                        <button type="submit" class="btn btn-secondary" style="width: 150px;">Редактировать</button>
+                    </form>
+                </div>
+                <div class="col-auto">
+                    <form th:action="@{/deleteAccident}" method="GET">
+                        <input type="hidden" name="accidentId" th:value="${accident.id}"/>
+                        <button type="submit" class="btn btn-secondary" style="width: 150px;">Удалить</button>
+                    </form>
                 </div>
             </div>
+
         </div>
     </div>
 </div>

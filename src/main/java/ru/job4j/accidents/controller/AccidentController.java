@@ -8,12 +8,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import ru.job4j.accidents.dto.FileDto;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.service.ImplAccidentJpaService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.io.IOException;
 import java.util.Collection;
 
 /**
@@ -59,6 +60,7 @@ public class AccidentController {
                 .getContext().getAuthentication().getPrincipal());
         model.addAttribute("types", accidentService.findAllAccidentTypes());
         model.addAttribute("rules", accidentService.findAllAccidentRules());
+        model.addAttribute("accident", new Accident());
         return "accident/addAccident";
     }
 
@@ -88,11 +90,12 @@ public class AccidentController {
      * @return редирект на страницу списка инцидентов
      */
     @PostMapping("/saveAccident")
-    public String save(@RequestParam("dateTime") String dateTime,
-            @ModelAttribute Accident accident, HttpServletRequest request) {
-        accident.setCreated(LocalDateTime.parse(dateTime));
+    public String save(
+            @RequestParam MultipartFile file,
+            @ModelAttribute Accident accident, HttpServletRequest request) throws IOException {
         String[] ids = request.getParameterValues("rIds");
-        accidentService.createOrUpdateAccident(accident, ids);
+        accidentService.createOrUpdateAccident(accident, ids,
+                new FileDto(file.getOriginalFilename(), file.getBytes()));
         return "redirect:/index";
     }
 
@@ -101,8 +104,8 @@ public class AccidentController {
      * информацией об инциденте.
      *
      * @param accidentId идентификатор инцидента
-     * @param model      модель
-     * @param request    запрос пользователя
+     * @param model модель
+     * @param request запрос пользователя
      * @return страница с подробной информацией об инциденте
      */
     @GetMapping("/accidentDetails{accidentId}")
@@ -112,5 +115,17 @@ public class AccidentController {
                 .getContext().getAuthentication().getPrincipal());
         model.addAttribute("accident", accidentService.findAccidentById(accidentId));
         return "accident/accidentDetails";
+    }
+
+    /**
+     * Удаляет инцидент по идентификатору.
+     *
+     * @param accidentId идентификатор инцидента
+     * @return редирект на страницу списка инцидентов
+     */
+    @GetMapping("/deleteAccident")
+    public String deleteAccident(@RequestParam("accidentId") int accidentId) {
+    accidentService.deleteById(accidentId);
+        return "redirect:/index";
     }
 }
