@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * Контроллер для работы с исключениями
+ *
  * @author Alexander Emelyanov
  * @version 1.0
  */
@@ -21,7 +22,7 @@ public class ErrorController {
      * или ошибке.
      *
      * @param throwable исключение или ошибка
-     * @param model модель
+     * @param model     модель
      * @return страница вывода исключения или ошибки
      */
     @ExceptionHandler(Throwable.class)

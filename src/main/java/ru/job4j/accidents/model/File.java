@@ -39,6 +39,8 @@ public class File {
 
     /**
      * Конструктор
+     * @param name имя файла
+     * @param path путь к файлу
      */
     public File(String name, String path) {
         this.name = name;

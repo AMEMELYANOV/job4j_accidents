@@ -14,6 +14,7 @@ import ru.job4j.accidents.service.UserService;
 
 /**
  * Контроллер страницы регистрации пользователя
+ *
  * @author Alexander Emelyanov
  * @version 1.0
  */

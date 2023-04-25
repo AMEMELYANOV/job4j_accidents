@@ -6,9 +6,10 @@ import ru.job4j.accidents.model.User;
 
 /**
  * Хранилище пользователей
- * @see ru.job4j.accidents.model.User
+ *
  * @author Alexander Emelyanov
  * @version 1.0
+ * @see ru.job4j.accidents.model.User
  */
 @Repository
 public interface UserRepository extends CrudRepository<User, Integer> {
@@ -19,5 +20,5 @@ public interface UserRepository extends CrudRepository<User, Integer> {
      * @param username имя пользователя
      * @return пользователь
      */
-   User findByUsername(String username);
+    User findByUsername(String username);
 }

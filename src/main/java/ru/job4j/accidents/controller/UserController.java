@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * Контроллер пользователя
+ *
  * @author Alexander Emelyanov
  * @version 1.0
  */
@@ -46,6 +47,7 @@ public class UserController {
      * Если в параметре password передано true на страницу будет выведено
      * сообщение для пользователя о необходимости исправить вводимые данные.
      *
+     * @param username параметр GET запроса, true, если есть ошибка валидации имени пользователя
      * @param password параметр GET запроса, true, если есть ошибка валидации пароля
      * @param model    модель
      * @return страница редактирования пользователя

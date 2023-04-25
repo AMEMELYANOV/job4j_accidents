@@ -11,9 +11,10 @@ import java.util.Set;
 
 /**
  * Сервис по работе с инцидентами
- * @see ru.job4j.accidents.model.Accident
+ *
  * @author Alexander Emelyanov
  * @version 1.0
+ * @see ru.job4j.accidents.model.Accident
  */
 public interface AccidentService {
 
@@ -26,9 +27,10 @@ public interface AccidentService {
 
     /**
      * Выполняет сохранение инцидента. При успешном сохранении возвращает
-     * сохраненный инцидент, иначе выбрасывается исключение.
+     * сохраненный инцидент.
      *
      * @param accident сохраняемый инцидент
+     * @param image    объект dto файла фотографии
      * @return инцидент при успешном сохранении
      */
     Accident create(Accident accident, FileDto image);
@@ -37,6 +39,7 @@ public interface AccidentService {
      * Выполняет обновление инцидента.
      *
      * @param accident обновляемый инцидент
+     * @param image    объект dto файла фотографии
      * @return инцидент при успешном обновлении
      */
     Accident update(Accident accident, FileDto image);
@@ -45,8 +48,10 @@ public interface AccidentService {
      * Выполняет выбор методов класса для сохранения или обновления инцидента.
      *
      * @param accident сохраняемый инцидент
-     * @param ids массив идентификаторов статей
+     * @param ids      массив идентификаторов статей
+     * @param image    объект dto файла фотографии
      * @return инцидент при успешном сохранении или обновлении
+     * @exception NoSuchElementException если тип инцидента не найден в репозитории
      */
     Accident createOrUpdateAccident(Accident accident, String[] ids, FileDto image);
 
@@ -56,7 +61,7 @@ public interface AccidentService {
      *
      * @param id идентификатор инцидента
      * @return инцидент при успешном нахождении
-     * @exception NoSuchElementException если инцидент не найден
+     * @throws NoSuchElementException если инцидент не найден
      */
     Accident findById(int id);
 
@@ -99,5 +104,10 @@ public interface AccidentService {
      */
     Accident findAccidentById(int id);
 
+    /**
+     * Выполняет удаление инцидента по идентификатору.
+     *
+     * @param id идентификатор задачи
+     */
     void deleteById(int id);
 }

@@ -62,8 +62,8 @@ public class Accident {
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(
             name = "accidents_rules",
-            joinColumns = { @JoinColumn(name = "accident_id") },
-            inverseJoinColumns = { @JoinColumn(name = "rule_id") })
+            joinColumns = {@JoinColumn(name = "accident_id")},
+            inverseJoinColumns = {@JoinColumn(name = "rule_id")})
     private Set<Rule> rules;
 
     /**

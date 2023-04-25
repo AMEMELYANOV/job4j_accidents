@@ -7,5 +7,24 @@ package ru.job4j.accidents.model;
  * @version 1.0
  */
 public enum Status {
-    ACCEPTED, REJECTED, CLOSED, NEW
+
+    /**
+     * Статус ПРИНЯТО
+     */
+    ACCEPTED,
+
+    /**
+     * Статус ОТКЛОНЕНО
+     */
+    REJECTED,
+
+    /**
+     * Статус ЗАКРЫТО
+     */
+    CLOSED,
+
+    /**
+     * Статус НОВЫЙ
+     */
+    NEW
 }

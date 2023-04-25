@@ -16,6 +16,7 @@ import ru.job4j.accidents.service.ImplAccidentJpaService;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.NoSuchElementException;
 
 /**
  * Контроллер для работы с инцидентами
@@ -85,14 +86,16 @@ public class AccidentController {
      * Получает от форм создания или редактирования объект инцидента и передает
      * для дальнейшего сохранения или обновления в хранилище данных.
      *
+     * @param file     файл фотографии
      * @param accident инцидент
      * @param request  запрос пользователя
      * @return редирект на страницу списка инцидентов
+     * @exception IOException если возникнут ошибки при работе с потоками ввода вывода
      */
     @PostMapping("/saveAccident")
     public String save(
-            @RequestParam MultipartFile file,
-            @ModelAttribute Accident accident, HttpServletRequest request) throws IOException {
+            @RequestParam MultipartFile file, @ModelAttribute Accident accident,
+            HttpServletRequest request) throws IOException {
         String[] ids = request.getParameterValues("rIds");
         accidentService.createOrUpdateAccident(accident, ids,
                 new FileDto(file.getOriginalFilename(), file.getBytes()));
@@ -104,13 +107,12 @@ public class AccidentController {
      * информацией об инциденте.
      *
      * @param accidentId идентификатор инцидента
-     * @param model модель
-     * @param request запрос пользователя
+     * @param model      модель
      * @return страница с подробной информацией об инциденте
      */
-    @GetMapping("/accidentDetails{accidentId}")
+    @GetMapping("/accidentDetails")
     public String getAccidentDetails(@RequestParam(value = "accidentId") int accidentId,
-                                     Model model, HttpServletRequest request) {
+                                     Model model) {
         model.addAttribute("user", SecurityContextHolder
                 .getContext().getAuthentication().getPrincipal());
         model.addAttribute("accident", accidentService.findAccidentById(accidentId));
@@ -125,7 +127,7 @@ public class AccidentController {
      */
     @GetMapping("/deleteAccident")
     public String deleteAccident(@RequestParam("accidentId") int accidentId) {
-    accidentService.deleteById(accidentId);
+        accidentService.deleteById(accidentId);
         return "redirect:/index";
     }
 }

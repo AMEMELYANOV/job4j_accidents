@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import ru.job4j.accidents.model.File;
 
 /**
- * Хранилище файлов изображений
+ * Хранилище файлов фотографий
  *
  * @author Alexander Emelyanov
  * @version 1.0

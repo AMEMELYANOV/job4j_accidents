@@ -1,5 +1,6 @@
 package ru.job4j.accidents.controller;
 
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,16 +11,29 @@ import ru.job4j.accidents.service.FileService;
 
 import java.util.Optional;
 
+/**
+ * Контроллер для работы с файлами
+ *
+ * @author Alexander Emelyanov
+ * @version 1.0
+ * @see ru.job4j.accidents.model.Accident
+ */
 @RestController
 @RequestMapping("/files")
+@AllArgsConstructor
 public class FileController {
 
+    /**
+     * Объект для доступа к методам FileService
+     */
     private final FileService fileService;
 
-    public FileController(FileService fileService) {
-        this.fileService = fileService;
-    }
-
+    /**
+     * Обрабатывает GET запрос, возвращает файл с фотографией инцидента.
+     *
+     * @param id идентификатор файла
+     * @return фотография инцидента
+     */
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable int id) {
         Optional<FileDto> contentOptional = fileService.getFileById(id);
@@ -28,5 +42,4 @@ public class FileController {
         }
         return ResponseEntity.ok(contentOptional.get().getContent());
     }
-
 }

@@ -21,4 +21,4 @@ COMMENT ON COLUMN accidents.status IS 'Статус инцидента';
 COMMENT ON COLUMN accidents.created IS 'Дата и время заведения или редактирования в приложении';
 COMMENT ON COLUMN accidents.accident_date_time IS 'Дата и время инцидента';
 COMMENT ON COLUMN accidents.user_id IS 'Пользователь инцидента';
-COMMENT ON COLUMN accidents.file_id IS 'Файл изображения инцидента';
+COMMENT ON COLUMN accidents.file_id IS 'Файл фотографии инцидента';

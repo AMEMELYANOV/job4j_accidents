@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Контроллер для страницы входа пользователя
+ *
  * @author Alexander Emelyanov
  * @version 1.0
  */
@@ -32,9 +33,9 @@ public class LoginController {
      * В зависимости от параметров error и logout на страницу будут выведены сообщения
      * для пользователя о необходимости исправить вводимые данные.
      *
-     * @param error параметр GET запроса, true, если есть ошибка при заполнении формы
+     * @param error  параметр GET запроса, true, если есть ошибка при заполнении формы
      * @param logout параметр GET запроса, true, если пользователь разлогинился
-     * @param model модель
+     * @param model  модель
      * @return страница входа пользователя
      */
     @GetMapping({"/", "/login"})
@@ -57,7 +58,7 @@ public class LoginController {
      * Выполняется выход пользователя из приложения и
      * очистка контекста безопасности.
      *
-     * @param request запрос клиента
+     * @param request  запрос клиента
      * @param response ответ клиенту
      * @return перенаправление на страницу входа с параметром logout=true
      */

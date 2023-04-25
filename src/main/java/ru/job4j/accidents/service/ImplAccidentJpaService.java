@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 /**
  * Реализация сервиса по работе с инцидентами
  *
+ * @see ru.job4j.accidents.service.AccidentService
  * @author Alexander Emelyanov
  * @version 1.0
  */
@@ -60,10 +61,10 @@ public class ImplAccidentJpaService implements AccidentService {
 
     /**
      * Выполняет сохранение инцидента. При успешном сохранении возвращает
-     * сохраненный инцидент, иначе выбрасывается исключение.
+     * сохраненный инцидент.
      *
      * @param accident сохраняемый инцидент
-     * @return инцидент при успешном сохранении
+     * @param image    объект dto файла фотографии
      */
     @Override
     public Accident create(Accident accident, FileDto image) {
@@ -75,6 +76,7 @@ public class ImplAccidentJpaService implements AccidentService {
      * Выполняет обновление инцидента.
      *
      * @param accident обновляемый инцидент
+     * @param image    объект dto файла фотографии
      * @return инцидент при успешном обновлении
      */
     @Override
@@ -87,10 +89,11 @@ public class ImplAccidentJpaService implements AccidentService {
     }
 
     /**
-     * Выполняет сохранение файла изображения и установку поля fileId у accident.
+     * Выполняет сохранение файла фотографии
+     * и установку поля fileId у accident.
      *
      * @param accident инцидент
-     * @param image файл изображения
+     * @param image    объект dto файла фотографии
      */
     private void saveNewFile(Accident accident, FileDto image) {
         File file = fileService.save(image);
@@ -102,7 +105,9 @@ public class ImplAccidentJpaService implements AccidentService {
      *
      * @param accident сохраняемый инцидент
      * @param ids      массив идентификаторов статей
+     * @param image    объект dto файла фотографии
      * @return инцидент при успешном сохранении или обновлении
+     * @exception NoSuchElementException если тип инцидента не найден в репозитории
      */
     @Override
     public Accident createOrUpdateAccident(Accident accident, String[] ids, FileDto image) {
@@ -204,6 +209,11 @@ public class ImplAccidentJpaService implements AccidentService {
         return accidentRepository.findAccidentById(id);
     }
 
+    /**
+     * Выполняет удаление инцидента по идентификатору.
+     *
+     * @param id идентификатор задачи
+     */
     @Override
     public void deleteById(int id) {
         Accident accidentFromDB = findById(id);

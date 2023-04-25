@@ -8,6 +8,7 @@ import javax.sql.DataSource;
 
 /**
  * Конфигурация средства миграции
+ *
  * @author Alexander Emelyanov
  * @version 1.0
  */
