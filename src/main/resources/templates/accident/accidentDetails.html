@@ -1,72 +1,129 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
 <head th:insert="fragment/head :: head"></head>
 <body>
 <div th:insert="fragment/navlogin :: navlogin"></div>
 <div class="container mt-3">
-    <div class="card" style="width: 100%">
+    <div class="card mb-3" style="width: 100%">
         <div class="card-header">
             <b>Подробное описание инцидента</b>
         </div>
         <div class="card-body justify-content-center">
             <div class="row mb-3 ml-4">
                 <div class="col-3 text-justify font-weight-bold">Наименование</div>
-                <div class="col-4 text-justify font-weight-bold">Подробное описание</div>
-                <div class="col text-justify font-weight-bold">Дата и время</div>
+                <div class="col-6 text-justify font-weight-bold">Подробное описание</div>
                 <div class="col text-justify font-weight-bold">Адрес</div>
             </div>
             <div class="row mb-5 ml-4">
                 <div class="col-3" th:text="${accident.name}"></div>
-                <div class="col-4 text-justify" th:text="${accident.description}"></div>
-                <div class="col text-justify"
-                     th:text="${#temporals.format(accident.accidentDateTime, 'dd.MM.yyyy HH:mm')}"></div>
+                <div class="col-6 text-justify" th:text="${accident.description}"></div>
                 <div class="col text-justify" th:text="${accident.address}"></div>
             </div>
             <div class="row mb-3 ml-4 mt-4">
+                <div class="col-3 text-justify font-weight-bold">Дата и время</div>
                 <div class="col-3 text-justify font-weight-bold">Тип</div>
-                <div class="col-4 text-justify font-weight-bold">Правило</div>
-                <div class="col text-justify font-weight-bold">Статус</div>
-                <div class="col text-justify font-weight-bold">Пользователь</div>
+                <div class="col-3 text-justify font-weight-bold">Правило</div>
+                <div class="col-3 text-justify font-weight-bold">Пользователь</div>
             </div>
             <div class="row mb-5 ml-4">
+                <div class="col-3 text-justify"
+                     th:text="${#temporals.format(accident.accidentDateTime, 'dd.MM.yyyy HH:mm')}"></div>
                 <div class="col-3 text-justify" th:text="${accident.type.name}"></div>
-                <div class="col-4 text-start">
+                <div class="col-3 text-start">
                     <ul class="mb-1" th:each="rule: ${accident.rules}">
                         <li class="text-left " th:text="${rule.name}"></li>
                     </ul>
                 </div>
-                <div class="col text-justify">
-                    <span th:if="${#strings.toString(accident.status)} == 'NEW'">Не рассмотрена</span>
-                    <span th:if="${#strings.toString(accident.status)} == 'ACCEPTED'">Принята</span>
-                    <span th:if="${#strings.toString(accident.status)} == 'REJECTED'">Отклонена</span>
-                    <span th:if="${#strings.toString(accident.status)} == 'CLOSED'">Завершена</span>
-                </div>
-                <div class="col text-justify" th:text="${accident.user.username}"></div>
+                <div class="col-3 text-justify" th:text="${accident.user.username}"></div>
             </div>
 
             <div class="row mb-3 ml-4 mt-4">
                 <div class="col-7 text-justify font-weight-bold">Фотография</div>
-                <div class="col-5 text-justify font-weight-bold">Действия пользователя</div>
             </div>
             <div class="row mb-5 ml-4">
                 <div class="col-7 mb-3" style="text-align: right;">
-                    <img th:src="@{/files/{fileId}(fileId=*{accident.fileId})}" class="rounded float-left" alt="No image">
+                    <img th:src="@{/files/{fileId}(fileId=*{accident.fileId})}" class="rounded float-left"
+                         alt="No image">
                 </div>
-
-                <div class="col-auto">
+            </div>
+            <div class="row mb-3 ml-4">
+                <div class="col-auto text-center font-weight-bold"
+                     th:if="${#authentication.name} == ${accident.user.username}">Действия пользователя :
+                </div>
+                <div class="col-auto mr-2 text-center" th:if="${#authentication.name} == ${accident.user.username}">
                     <form th:action="@{/editAccident}" method="GET">
                         <input type="hidden" name="accidentId" th:value="${accident.id}"/>
                         <button type="submit" class="btn btn-secondary" style="width: 150px;">Редактировать</button>
                     </form>
                 </div>
-                <div class="col-auto">
+                <div class="col-auto" th:if="${#authentication.name} == ${accident.user.username}">
                     <form th:action="@{/deleteAccident}" method="GET">
                         <input type="hidden" name="accidentId" th:value="${accident.id}"/>
                         <button type="submit" class="btn btn-secondary" style="width: 150px;">Удалить</button>
                     </form>
                 </div>
             </div>
-
+        </div>
+    </div>
+    <div class="card mb-3" style="width: 100%">
+        <div class="card-header">
+            <b>Данные рассмотрения инцидента</b>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3 ml-4">
+                <div class="col-2 text-justify font-weight-bold">Имя инспектора</div>
+                <div class="col-2 text-justify font-weight-bold">Статус</div>
+                <div class="col-8 text-justify font-weight-bold">Комментарий</div>
+            </div>
+            <div class="row mb-3 ml-4">
+                <div class="col-2 text-justify"
+                     th:text="${accident.inspectorUsername} ?: 'Инспектор не назначен'"></div>
+                <div class="col-2 text-justify">
+                    <span th:if="${#strings.toString(accident.status)} == 'NEW'">Не рассмотрена</span>
+                    <span th:if="${#strings.toString(accident.status)} == 'ACCEPTED'">Принята</span>
+                    <span th:if="${#strings.toString(accident.status)} == 'REJECTED'">Отклонена</span>
+                    <span th:if="${#strings.toString(accident.status)} == 'CLOSED'">Завершена</span>
+                </div>
+                <div class="col-8 text-justify"
+                     th:text="${accident.inspectorComment} ?: 'Комментарий отсутствует'"></div>
+            </div>
+        </div>
+    </div>
+    <div class="card" style="width: 100%" sec:authorize="hasRole('ROLE_INSPECTOR')">
+        <div class="card-header">
+            <b>Блок инспектора</b>
+        </div>
+        <div class="card-body">
+            <form th:action="@{/inspectorAction}" th:object="${accident}" method="POST">
+                <input type="hidden" name="id" th:field="*{id}"/>
+                <input type="hidden" name="name" th:field="*{name}"/>
+                <input type="hidden" name="description" th:field="*{description}"/>
+                <input type="hidden" name="address" th:field="*{address}"/>
+                <input type="hidden" name="type" th:field="*{type}"/>
+                <input type="hidden" name="rules" th:field="*{rules}"/>
+                <input type="hidden" name="created" th:field="*{created}"/>
+                <input type="hidden" name="accidentDateTime" th:field="*{accidentDateTime}"/>
+                <input type="hidden" name="user" th:field="*{user}"/>
+                <input type="hidden" name="fileId" th:field="*{fileId}"/>
+                <input type="hidden" name="inspectorUsername" th:value="${#authentication.name}"/>
+                <table class="table">
+                    <tr>
+                        <td><label for="status">Статус инцидента :</label></td>
+                        <td><select name="status" id="status" th:field="*{status}">
+                            <option th:each="status : ${T(ru.job4j.accidents.model.Status).values()}"
+                                    th:value="${status}"
+                                    th:text="${status.displayName}"></option>
+                        </select></td>
+                    </tr>
+                    <tr>
+                        <td><label for="comment2">Комментарий инспектора :</label></td>
+                        <td><textarea class="form-control" id="comment2" rows="8" maxlength="400"
+                                      name="inspectorComment" placeholder="Не больше 400 символов" required></textarea>
+                        </td>
+                    </tr>
+                </table>
+                <button type="submit" class="btn btn-secondary">Сохранить</button>
+            </form>
         </div>
     </div>
 </div>

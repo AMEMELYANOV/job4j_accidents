@@ -16,21 +16,24 @@
                 <table class="table">
                     <tr>
                         <td><label for="name">Наименование :</label></td>
-                        <td><input class="form-control" type="text" th:field="*{name}" name="name" id="name" required/></td>
+                        <td><input class="form-control" type="text" th:field="*{name}" name="name" id="name" required/>
+                        </td>
                     </tr>
                     <tr>
                         <td><label for="address">Адрес :</label></td>
-                        <td><input class="form-control" type="text" th:field="*{address}" name="address" id="address" required/></td>
+                        <td><input class="form-control" type="text" th:field="*{address}" name="address" id="address"
+                                   required/></td>
                     </tr>
                     <tr>
                         <td><label for="description">Описание :</label></td>
-                        <td><textarea class="form-control" th:field="*{description}" id="description" rows="8" maxlength="400"
+                        <td><textarea class="form-control" th:field="*{description}" id="description" rows="8"
+                                      maxlength="400"
                                       name="description"
                                       placeholder="Не больше 400 символов" required></textarea></td>
                     </tr>
                     <tr>
                         <td><label for="type.id">Тип :</label></td>
-                        <td> <select class="form-control" id="type.id"  name="type.id" required>
+                        <td><select class="form-control" id="type.id" name="type.id" required>
                             <option th:each="type: ${types}"
                                     th:text="${type.name}"
                                     th:value="${type.id}"></option>
@@ -38,7 +41,7 @@
                     </tr>
                     <tr>
                         <td><label for="rIds">Правила :</label></td>
-                        <td> <select class="form-control" id="rIds" name="rIds" multiple required>
+                        <td><select class="form-control" id="rIds" name="rIds" multiple required>
                             <option th:each="rule: ${rules}"
                                     th:text="${rule.name}"
                                     th:value="${rule.id}"></option>
@@ -46,7 +49,8 @@
                     </tr>
                     <tr>
                         <td><label for="dateTime">Дата и время :</label></td>
-                        <td><input class="form-control" type="datetime-local" th:field="*{accidentDateTime}" name="dateTime" id="dateTime" required/></td>
+                        <td><input class="form-control" type="datetime-local" th:field="*{accidentDateTime}"
+                                   name="dateTime" id="dateTime" required/></td>
                     </tr>
                     <tr>
                         <td>
@@ -55,7 +59,8 @@
                     </tr>
                     <tr>
                         <td>
-                            <input class="form-control form-control-sm w-100" type="file" id="formFile" name="file" required>
+                            <input class="form-control form-control-sm w-100" type="file" id="formFile" name="file"
+                                   required>
                         </td>
                     </tr>
                     <tr>

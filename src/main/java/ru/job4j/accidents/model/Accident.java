@@ -96,4 +96,16 @@ public class Accident {
      * Идентификатор файла
      */
     private Integer fileId;
+
+    /**
+     * Имя инспектора инцидента
+     */
+    @Column(name = "inspector_username")
+    private String inspectorUsername;
+
+    /**
+     * Комментарий инспектора по инциденту
+     */
+    @Column(name = "inspector_сomment")
+    private String inspectorComment;
 }

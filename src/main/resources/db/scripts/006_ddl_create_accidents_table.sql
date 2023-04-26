@@ -8,7 +8,9 @@ CREATE TABLE IF NOT EXISTS accidents (
    created TIMESTAMP NOT NULL,
    accident_date_time TIMESTAMP NOT NULL,
    user_id INT NOT NULL REFERENCES users(id),
-   file_id INT REFERENCES files(id)
+   file_id INT REFERENCES files(id),
+   inspector_username VARCHAR,
+   inspector_сomment VARCHAR
 );
 
 COMMENT ON TABLE accidents IS 'Инциденты';
@@ -22,3 +24,5 @@ COMMENT ON COLUMN accidents.created IS 'Дата и время заведени�
 COMMENT ON COLUMN accidents.accident_date_time IS 'Дата и время инцидента';
 COMMENT ON COLUMN accidents.user_id IS 'Пользователь инцидента';
 COMMENT ON COLUMN accidents.file_id IS 'Файл фотографии инцидента';
+COMMENT ON COLUMN accidents.inspector_username IS 'Имя инспектора занимающегося инцидентом';
+COMMENT ON COLUMN accidents.inspector_сomment IS 'Комментарий инспектора по инциденту';

@@ -220,4 +220,14 @@ public class ImplAccidentJpaService implements AccidentService {
         accidentRepository.deleteById(id);
         fileService.deleteById(accidentFromDB.getFileId());
     }
+
+    /**
+     * Выполняет удаление инцидента по идентификатору.
+     *
+     * @param accident идентификатор задачи
+     */
+    @Override
+    public void updateStatus(Accident accident) {
+        accidentRepository.save(accident);
+    }
 }

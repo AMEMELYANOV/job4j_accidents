@@ -110,4 +110,6 @@ public interface AccidentService {
      * @param id идентификатор задачи
      */
     void deleteById(int id);
+
+    void updateStatus(Accident accident);
 }

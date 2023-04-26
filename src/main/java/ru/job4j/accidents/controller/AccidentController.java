@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.job4j.accidents.dto.FileDto;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.service.ImplAccidentJpaService;
+import ru.job4j.accidents.service.ImplFileService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -129,5 +130,18 @@ public class AccidentController {
     public String deleteAccident(@RequestParam("accidentId") int accidentId) {
         accidentService.deleteById(accidentId);
         return "redirect:/index";
+    }
+
+    /**
+     * Обрабатывает действия инспектора по присвоению
+     * статуса инциденту и комментированию выбранного статуса.
+     *
+     * @param accident инцидент
+     * @return редирект на страницу списка инцидентов
+     */
+    @PostMapping("/inspectorAction")
+    public String inspectorAction(@ModelAttribute Accident accident) {
+        accidentService.updateStatus(accident);
+        return "redirect:/accidentDetails?accidentId=" + accident.getId();
     }
 }

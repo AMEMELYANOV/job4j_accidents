@@ -9,22 +9,45 @@ package ru.job4j.accidents.model;
 public enum Status {
 
     /**
-     * Статус ПРИНЯТО
+     * Статус ПРИНЯТ
      */
-    ACCEPTED,
+    ACCEPTED("Принят"),
 
     /**
-     * Статус ОТКЛОНЕНО
+     * Статус ОТКЛОНЕН
      */
-    REJECTED,
+    REJECTED("Отклонен"),
 
     /**
-     * Статус ЗАКРЫТО
+     * Статус ЗАКРЫТ
      */
-    CLOSED,
+    CLOSED("Закрыт"),
 
     /**
      * Статус НОВЫЙ
      */
-    NEW
+    NEW("Новый");
+
+    /**
+     * Имя перечисления
+     */
+    private final String displayName;
+
+    /**
+     * Конструктор
+     *
+     * @param displayName имя перечисления
+     */
+    private Status(String displayName) {
+        this.displayName = displayName;
+    }
+
+    /**
+     * Геттер
+     *
+     * @return  displayName имя перечисления
+     */
+    public String getDisplayName() {
+        return displayName;
+    }
 }
