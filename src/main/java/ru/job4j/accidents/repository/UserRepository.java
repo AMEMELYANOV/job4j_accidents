@@ -21,4 +21,11 @@ public interface UserRepository extends CrudRepository<User, Integer> {
      * @return пользователь
      */
     User findByUsername(String username);
+
+    /**
+     * Удаляет пользователя по имени.
+     *
+     * @param username имя пользователя
+     */
+    void deleteByUsername(String username);
 }

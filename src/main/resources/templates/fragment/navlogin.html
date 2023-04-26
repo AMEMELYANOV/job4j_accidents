@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
 <div class="container mt-3" th:fragment="navlogin">
     <nav class="navbar navbar-expand-lg navbar-light bg-light pl-3">
         <a class="navbar-brand">Автонарушения</a>
@@ -14,18 +14,21 @@
                 <li class="nav-item">
                     <a class="nav-item nav-link" th:href="@{/addAccident}">Добавить</a>
                 </li>
+                <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+                    <a class="nav-item nav-link" th:href="@{/getUsers}">Пользователи</a>
+                </li>
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-item nav-link" th:href="@{/userEdit}">Профиль</a>
                 </li>
-                <li th:if="${user.username} == null" class="nav-item">
+                <li th:if="${user} == null" class="nav-item">
                     <a class="nav-link" th:href="@{/login}">Войти</a>
                 </li>
-                <li th:if="${user.username} == null" class="nav-item">
+                <li th:if="${user} == null" class="nav-item">
                     <a class="nav-link" th:href="@{/registration}">Регистрация</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" th:if="${user} != null">
                     <a class="nav-link" th:text="'Вы вошли как : ' + ${user.username}"></a>
                 </li>
                 <li class="nav-item">

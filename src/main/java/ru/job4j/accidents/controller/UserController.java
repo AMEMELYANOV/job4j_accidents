@@ -10,11 +10,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.job4j.accidents.model.Accident;
+import ru.job4j.accidents.model.Authority;
 import ru.job4j.accidents.model.User;
-import ru.job4j.accidents.service.AuthorityService;
-import ru.job4j.accidents.service.UserService;
+import ru.job4j.accidents.service.ImplAuthorityService;
+import ru.job4j.accidents.service.ImplUserService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 
 /**
  * Контроллер пользователя
@@ -25,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 @AllArgsConstructor
 @Slf4j
 @Controller
+@Transactional
 public class UserController {
 
     /**
@@ -35,12 +39,12 @@ public class UserController {
     /**
      * Объект для доступа к методам UserService
      */
-    private final UserService userService;
+    private final ImplUserService userService;
 
     /**
      * Объект для доступа к методам AuthorityService
      */
-    private final AuthorityService authorityService;
+    private final ImplAuthorityService authorityService;
 
     /**
      * Обрабатывает GET запрос, возвращает страницу редактирования пользователя.
@@ -94,5 +98,62 @@ public class UserController {
         userService.save(user);
         request.getSession().setAttribute("user", user);
         return "redirect:/tasks";
+    }
+
+    /**
+     * Обрабатывает GET запрос, возвращает страницу со списков
+     * пользователей, страница доступна пользователям с ролью
+     * администратора.
+     *
+     * @param model модель
+     * @return страница списка пользователей
+     */
+    @GetMapping("/getUsers")
+    public String getUsers(Model model) {
+        model.addAttribute("authorities", authorityService.findAllAuthorities());
+        model.addAttribute("user", SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal());
+        model.addAttribute("users", userService.findAllUsers());
+        return "user/users";
+    }
+
+    /**
+     * Обрабатывает POST запрос, сохраняет пользователя с измененной
+     * ролью по переданному имени.
+     *
+//     * @param username имя пользователя
+     * @param model модель
+     * @return страница списка пользователей
+     */
+    @PostMapping("/saveAuthority")
+    public String saveAuthority(@ModelAttribute User user,
+                                @RequestParam(value = "newRole") String newRole,
+                                Model model) {
+        user.setAuthority(authorityService.findByAuthority(newRole));
+        userService.save(user);
+        model.addAttribute("authorities", authorityService.findAllAuthorities());
+        model.addAttribute("user", SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal());
+        model.addAttribute("users", userService.findAllUsers());
+        return "user/users";
+    }
+
+    /**
+     * Обрабатывает POST запрос, удаляет пользователя
+     * по переданному имени.
+     *
+     * @param username имя пользователя
+     * @param model модель
+     * @return страница списка пользователей
+     */
+    @PostMapping("/deleteUser")
+    public String deleteUser(@RequestParam(value = "username") String username,
+                             Model model) {
+        userService.deleteByUsername(username);
+        model.addAttribute("authorities", authorityService.findAllAuthorities());
+        model.addAttribute("user", SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal());
+        model.addAttribute("users", userService.findAllUsers());
+        return "user/users";
     }
 }

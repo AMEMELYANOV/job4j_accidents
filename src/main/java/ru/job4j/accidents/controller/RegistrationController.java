@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.accidents.model.User;
-import ru.job4j.accidents.service.AuthorityService;
-import ru.job4j.accidents.service.UserService;
+import ru.job4j.accidents.service.ImplAuthorityService;
+import ru.job4j.accidents.service.ImplUserService;
 
 /**
  * Контроллер страницы регистрации пользователя
@@ -30,12 +30,12 @@ public class RegistrationController {
     /**
      * Объект для доступа к методам UserService
      */
-    private final UserService userService;
+    private final ImplUserService implUserService;
 
     /**
      * Объект для доступа к методам AuthorityService
      */
-    private final AuthorityService authorityService;
+    private final ImplAuthorityService implAuthorityService;
 
     /**
      * Обрабатывает GET запрос, возвращает страницу регистрации пользователя.
@@ -67,13 +67,13 @@ public class RegistrationController {
      */
     @PostMapping("/registration")
     public String regSave(@ModelAttribute User user) {
-        if (userService.findByUsername(user.getUsername()) != null) {
+        if (implUserService.findByUsername(user.getUsername()) != null) {
             return "redirect:/registration?error=true";
         }
         user.setEnabled(true);
         user.setPassword(encoder.encode(user.getPassword()));
-        user.setAuthority(authorityService.findByAuthority("ROLE_USER"));
-        userService.save(user);
+        user.setAuthority(implAuthorityService.findByAuthority("ROLE_USER"));
+        implUserService.save(user);
         return "redirect:/login";
     }
 }

@@ -71,20 +71,20 @@
         </div>
         <div class="card-body">
             <div class="row mb-3 ml-4">
-                <div class="col-2 text-justify font-weight-bold">Имя инспектора</div>
+                <div class="col-3 text-justify font-weight-bold">Имя инспектора</div>
                 <div class="col-2 text-justify font-weight-bold">Статус</div>
-                <div class="col-8 text-justify font-weight-bold">Комментарий</div>
+                <div class="col-7 text-justify font-weight-bold">Комментарий</div>
             </div>
             <div class="row mb-3 ml-4">
                 <div class="col-2 text-justify"
                      th:text="${accident.inspectorUsername} ?: 'Инспектор не назначен'"></div>
-                <div class="col-2 text-justify">
+                <div class="col-3 text-justify">
                     <span th:if="${#strings.toString(accident.status)} == 'NEW'">Не рассмотрена</span>
                     <span th:if="${#strings.toString(accident.status)} == 'ACCEPTED'">Принята</span>
                     <span th:if="${#strings.toString(accident.status)} == 'REJECTED'">Отклонена</span>
                     <span th:if="${#strings.toString(accident.status)} == 'CLOSED'">Завершена</span>
                 </div>
-                <div class="col-8 text-justify"
+                <div class="col-7 text-justify"
                      th:text="${accident.inspectorComment} ?: 'Комментарий отсутствует'"></div>
             </div>
         </div>

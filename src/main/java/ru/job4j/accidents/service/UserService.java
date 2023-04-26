@@ -1,22 +1,10 @@
 package ru.job4j.accidents.service;
 
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.User;
-import ru.job4j.accidents.repository.UserRepository;
 
-/**
- * Сервис по работе с пользователями
- *
- * @author Alexander Emelyanov
- * @version 1.0
- * @see ru.job4j.accidents.model.User
- */
-@Service
-@AllArgsConstructor
-public class UserService {
+import java.util.List;
 
-    private final UserRepository userRepository;
+public interface UserService {
 
     /**
      * Выполняет поиск пользователя по имени.
@@ -24,9 +12,7 @@ public class UserService {
      * @param username имя пользователя
      * @return пользователя при успешном нахождении
      */
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
+    User findByUsername(String username);
 
     /**
      * Сохраняет пользователя в базе данных, если пользователь существует,
@@ -35,7 +21,19 @@ public class UserService {
      * @param user пользователь
      * @return сохраненный пользователь
      */
-    public User save(User user) {
-        return userRepository.save(user);
-    }
+    User save(User user);
+
+    /**
+     * Возвращает список пользователей.
+     *
+     * @return список пользователей пользователь
+     */
+    List<User> findAllUsers();
+
+    /**
+     * Удаляет пользователя по имени.
+     *
+     * @param username имя пользователя
+     */
+    void deleteByUsername(String username);
 }

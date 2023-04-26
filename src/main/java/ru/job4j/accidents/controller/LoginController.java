@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.job4j.accidents.service.UserService;
+import ru.job4j.accidents.service.ImplUserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,7 +26,7 @@ public class LoginController {
     /**
      * Объект для доступа к методам UserService
      */
-    private final UserService userService;
+    private final ImplUserService implUserService;
 
     /**
      * Обрабатывает GET запрос, возвращает страницу входа пользователя.

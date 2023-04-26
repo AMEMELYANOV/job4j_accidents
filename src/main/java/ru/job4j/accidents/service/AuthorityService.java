@@ -1,25 +1,10 @@
 package ru.job4j.accidents.service;
 
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.Authority;
-import ru.job4j.accidents.repository.AuthorityRepository;
 
-/**
- * Сервис по работе с ролями
- *
- * @author Alexander Emelyanov
- * @version 1.0
- * @see ru.job4j.accidents.model.Accident
- */
-@Service
-@AllArgsConstructor
-public class AuthorityService {
+import java.util.List;
 
-    /**
-     * Объект для доступа к методам AuthorityRepository
-     */
-    private final AuthorityRepository authorityRepository;
+public interface AuthorityService {
 
     /**
      * Выполняет поиск роли по наименованию.
@@ -27,7 +12,12 @@ public class AuthorityService {
      * @param authority наименование роли
      * @return роль при успешном нахождении
      */
-    public Authority findByAuthority(String authority) {
-        return authorityRepository.findByAuthority(authority);
-    }
+    Authority findByAuthority(String authority);
+
+    /**
+     * Возвращает список ролей пользователей.
+     *
+     * @return список ролей пользователей пользователь
+     */
+    List<Authority> findAllAuthorities();
 }

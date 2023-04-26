@@ -1,0 +1,53 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
+<head th:insert="fragment/head :: head"></head>
+<body sec:authorize="hasRole('ROLE_ADMIN')">
+<div th:insert="fragment/navlogin :: navlogin"></div>
+<div class="container mt-3">
+    <div class="card" style="width: 100%">
+        <div class="card-header">
+            <div class="row ml-4 fw-bold">
+                <div class="col-1 text-justify font-weight-bold">id</div>
+                <div class="col-2 text-justify font-weight-bold">Имя</div>
+                <div class="col-2 text-justify font-weight-bold">Статус</div>
+                <div class="col-2 text-justify font-weight-bold">Текущая роль</div>
+                <div class="col-3 text-justify font-weight-bold">Изменить роль</div>
+                <div class="col-2 text-justify font-weight-bold">Удаление</div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3 pb-3 ml-4 border-bottom" th:each="user: ${users}">
+                <div class="col-1 text-justify" th:text="${user.id}"></div>
+                <div class="col-2 text-justify" th:text="${user.username}"></div>
+                <div class="col-2 text-justify" th:text="${user.enabled}"></div>
+                <div class="col-2 text-justify" th:text="${user.authority.authority}"></div>
+                <div class="col-3 text-justify">
+                    <form th:action="@{/saveAuthority}" th:object="${accident}" method="POST">
+                        <div class="row mb-2">
+                            <select name="newRole" id="newRole">
+                                <option th:each="newRole : ${authorities}"
+                                        th:value="${newRole.authority}"
+                                        th:text="${newRole.authority}"></option>
+                            </select>
+                        </div>
+                        <div class="row mb-2">
+                            <input type="hidden" name="id" th:value="${user.id}"/>
+                            <input type="hidden" name="username" th:value="${user.username}"/>
+                            <input type="hidden" name="password" th:value="${user.password}"/>
+                            <input type="hidden" name="enabled" th:value="${user.enabled}"/>
+                            <button type="submit" class="btn btn-secondary" style="width: 150px;">Сохранить</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-2 text-end">
+                    <form th:action="@{/deleteUser}" method="POST">
+                        <input type="hidden" name="username" th:value="${user.username}"/>
+                        <button type="submit" class="btn btn-secondary" style="width: 150px;">Удалить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
