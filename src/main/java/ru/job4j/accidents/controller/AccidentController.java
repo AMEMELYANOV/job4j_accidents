@@ -121,6 +121,20 @@ public class AccidentController {
     }
 
     /**
+     * Обрабатывает GET запрос, возвращает страницу со списком инцидентов.
+     *
+     * @param model      модель
+     * @return страница с подробной информацией об инциденте
+     */
+    @GetMapping("/accidentsAdmin")
+    public String getAccidentsAdmin(Model model) {
+        model.addAttribute("user", SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal());
+        model.addAttribute("accidents", accidentService.findAll());
+        return "accident/accidentsAdmin";
+    }
+
+    /**
      * Удаляет инцидент по идентификатору.
      *
      * @param accidentId идентификатор инцидента
@@ -143,5 +157,19 @@ public class AccidentController {
     public String inspectorAction(@ModelAttribute Accident accident) {
         accidentService.updateStatus(accident);
         return "redirect:/accidentDetails?accidentId=" + accident.getId();
+    }
+
+    /**
+     * Обрабатывает POST запрос, возвращает страницу со списком инцидентов,
+     * для администратора.
+     *
+     * @param model      модель
+     * @return страница с подробной информацией об инциденте
+     */
+    @PostMapping("/deleteAccident")
+    public String getAccidentsAdmin(@RequestParam(value = "accidentId") int accidentId,
+            Model model) {
+        accidentService.deleteById(accidentId);
+        return "redirect:/accidentsAdmin";
     }
 }

@@ -19,8 +19,8 @@
                 <div class="col-3 text-justify font-weight-bold">Наименование</div>
                 <div class="col-2 text-justify font-weight-bold">Дата и время</div>
                 <div class="col-2 text-justify font-weight-bold">Адрес</div>
-                <div class="col-2 text-justify font-weight-bold">Тип</div>
                 <div class="col-2 text-justify font-weight-bold">Статус</div>
+                <div class="col-2 text-justify font-weight-bold">Действие</div>
             </div>
         </div>
         <div class="card-body">
@@ -32,12 +32,17 @@
                 </div>
                 <div class="col-2 text-justify" th:text="${#temporals.format(accident.accidentDateTime, 'dd.MM.yyyy HH:mm')}"></div>
                 <div class="col-2 text-justify" th:text="${accident.address}"></div>
-                <div class="col-2 text-start" th:text="${accident.type.name}"></div>
                 <div class="col-2 text-justify">
                     <span th:if="${#strings.toString(accident.status)} == 'NEW'">Не рассмотрена</span>
                     <span th:if="${#strings.toString(accident.status)} == 'ACCEPTED'">Принята</span>
                     <span th:if="${#strings.toString(accident.status)} == 'REJECTED'">Отклонена</span>
                     <span th:if="${#strings.toString(accident.status)} == 'CLOSED'">Завершена</span>
+                </div>
+                <div class="col-2 text-start">
+                    <form th:action="@{/deleteAccident}" method="POST">
+                        <input type="hidden" name="accidentId" th:value="${accident.id}"/>
+                        <button type="submit" class="btn btn-secondary" style="width: 150px;">Удалить</button>
+                    </form>
                 </div>
             </div>
         </div>

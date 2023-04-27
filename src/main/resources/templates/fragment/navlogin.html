@@ -14,11 +14,14 @@
                 <li class="nav-item">
                     <a class="nav-item nav-link" th:href="@{/addAccident}">Добавить</a>
                 </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+                    <a class="nav-item nav-link" th:href="@{/accidentsAdmin}">Удаление инцидентов</a>
+                </li>
                 <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
                     <a class="nav-item nav-link" th:href="@{/getUsers}">Пользователи</a>
                 </li>
-            </ul>
-            <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-item nav-link" th:href="@{/userEdit}">Профиль</a>
                 </li>

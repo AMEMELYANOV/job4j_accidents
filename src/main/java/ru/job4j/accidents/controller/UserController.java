@@ -28,7 +28,6 @@ import javax.transaction.Transactional;
 @AllArgsConstructor
 @Slf4j
 @Controller
-@Transactional
 public class UserController {
 
     /**

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.User;
 import ru.job4j.accidents.repository.UserRepository;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -62,6 +63,7 @@ public class ImplUserService implements UserService {
      *
      * @param username имя пользователя
      */
+    @Transactional
     @Override
     public void deleteByUsername(String username) {
         userRepository.deleteByUsername(username);
