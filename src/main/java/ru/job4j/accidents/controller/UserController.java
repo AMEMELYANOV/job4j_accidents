@@ -10,14 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.job4j.accidents.model.Accident;
-import ru.job4j.accidents.model.Authority;
 import ru.job4j.accidents.model.User;
 import ru.job4j.accidents.service.ImplAuthorityService;
 import ru.job4j.accidents.service.ImplUserService;
+import org.springframework.security.core.userdetails.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.transaction.Transactional;
 
 /**
  * Контроллер пользователя
@@ -88,7 +86,13 @@ public class UserController {
                            @RequestParam(value = "oldPassword") String oldPassword,
                            HttpServletRequest request) {
         User userFromDB = userService.findByUsername(user.getUsername());
-        if (oldPassword == null || !oldPassword.equals(userFromDB.getPassword())) {
+        var currentUser = (org.springframework.security.core.userdetails.User) SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal();
+        if (!currentUser.getUsername().equals(user.getUsername())
+                && userFromDB != null) {
+            return "redirect:/userEdit?username=true";
+        }
+        if (oldPassword == null || (userFromDB != null && !oldPassword.equals(userFromDB.getPassword()))) {
             return "redirect:/userEdit?password=true";
         }
         user.setEnabled(true);
