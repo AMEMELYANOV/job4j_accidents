@@ -11,12 +11,4 @@ import ru.job4j.accidents.model.Accident;
  * @see ru.job4j.accidents.model.Accident
  */
 public interface AccidentRepository extends CrudRepository<Accident, Integer> {
-
-    /**
-     * Возвращает инцидент по идентификатору.
-     *
-     * @param id идентификатор
-     * @return инцидент
-     */
-    Accident findAccidentById(int id);
 }

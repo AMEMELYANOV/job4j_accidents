@@ -199,17 +199,6 @@ public class ImplAccidentJpaService implements AccidentService {
     }
 
     /**
-     * Выполняет поиск инцидента по идентификатору.
-     *
-     * @param id идентификатор задачи
-     * @return задачу при успешном нахождении
-     */
-    @Override
-    public Accident findAccidentById(int id) {
-        return accidentRepository.findAccidentById(id);
-    }
-
-    /**
      * Выполняет удаление инцидента по идентификатору.
      *
      * @param id идентификатор задачи

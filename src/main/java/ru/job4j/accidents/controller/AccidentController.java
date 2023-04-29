@@ -12,12 +12,10 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.job4j.accidents.dto.FileDto;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.service.ImplAccidentJpaService;
-import ru.job4j.accidents.service.ImplFileService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.NoSuchElementException;
 
 /**
  * Контроллер для работы с инцидентами
@@ -41,7 +39,7 @@ public class AccidentController {
      * @param model модель
      * @return страница списка инцидентов
      */
-    @GetMapping("index")
+    @GetMapping("/index")
     public String index(Model model) {
         Collection<Accident> accidents = accidentService.findAll();
         model.addAttribute("user", SecurityContextHolder
@@ -116,7 +114,7 @@ public class AccidentController {
                                      Model model) {
         model.addAttribute("user", SecurityContextHolder
                 .getContext().getAuthentication().getPrincipal());
-        model.addAttribute("accident", accidentService.findAccidentById(accidentId));
+        model.addAttribute("accident", accidentService.findById(accidentId));
         return "accident/accidentDetails";
     }
 
