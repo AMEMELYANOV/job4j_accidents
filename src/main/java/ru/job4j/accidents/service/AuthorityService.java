@@ -4,6 +4,13 @@ import ru.job4j.accidents.model.Authority;
 
 import java.util.List;
 
+/**
+ * Сервис по работе с ролями
+ *
+ * @author Alexander Emelyanov
+ * @version 1.0
+ * @see ru.job4j.accidents.model.Authority
+ */
 public interface AuthorityService {
 
     /**

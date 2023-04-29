@@ -51,7 +51,7 @@ public interface AccidentService {
      * @param ids      массив идентификаторов статей
      * @param image    объект dto файла фотографии
      * @return инцидент при успешном сохранении или обновлении
-     * @exception NoSuchElementException если тип инцидента не найден в репозитории
+     * @throws NoSuchElementException если тип инцидента не найден в репозитории
      */
     Accident createOrUpdateAccident(Accident accident, String[] ids, FileDto image);
 
@@ -111,5 +111,10 @@ public interface AccidentService {
      */
     void deleteById(int id);
 
+    /**
+     * Выполняет обновление статуса инцидента.
+     *
+     * @param accident идентификатор задачи
+     */
     void updateStatus(Accident accident);
 }

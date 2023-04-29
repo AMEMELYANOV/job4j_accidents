@@ -30,12 +30,12 @@ public class RegistrationController {
     /**
      * Объект для доступа к методам UserService
      */
-    private final ImplUserService implUserService;
+    private final ImplUserService userService;
 
     /**
      * Объект для доступа к методам AuthorityService
      */
-    private final ImplAuthorityService implAuthorityService;
+    private final ImplAuthorityService authorityService;
 
     /**
      * Обрабатывает GET запрос, возвращает страницу регистрации пользователя.
@@ -67,13 +67,13 @@ public class RegistrationController {
      */
     @PostMapping("/registration")
     public String regSave(@ModelAttribute User user) {
-        if (implUserService.findByUsername(user.getUsername()) != null) {
+        if (userService.findByUsername(user.getUsername()) != null) {
             return "redirect:/registration?error=true";
         }
         user.setEnabled(true);
         user.setPassword(encoder.encode(user.getPassword()));
-        user.setAuthority(implAuthorityService.findByAuthority("ROLE_USER"));
-        implUserService.save(user);
+        user.setAuthority(authorityService.findByAuthority("ROLE_USER"));
+        userService.save(user);
         return "redirect:/login";
     }
 }

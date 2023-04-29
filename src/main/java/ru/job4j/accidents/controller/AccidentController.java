@@ -91,7 +91,7 @@ public class AccidentController {
      * @param accident инцидент
      * @param request  запрос пользователя
      * @return редирект на страницу списка инцидентов
-     * @exception IOException если возникнут ошибки при работе с потоками ввода вывода
+     * @throws IOException если возникнут ошибки при работе с потоками ввода вывода
      */
     @PostMapping("/saveAccident")
     public String save(
@@ -123,7 +123,7 @@ public class AccidentController {
     /**
      * Обрабатывает GET запрос, возвращает страницу со списком инцидентов.
      *
-     * @param model      модель
+     * @param model модель
      * @return страница с подробной информацией об инциденте
      */
     @GetMapping("/accidentsAdmin")
@@ -163,12 +163,11 @@ public class AccidentController {
      * Обрабатывает POST запрос, возвращает страницу со списком инцидентов,
      * для администратора.
      *
-     * @param model      модель
+     * @param accidentId идентификатор инцидента
      * @return страница с подробной информацией об инциденте
      */
     @PostMapping("/deleteAccident")
-    public String getAccidentsAdmin(@RequestParam(value = "accidentId") int accidentId,
-            Model model) {
+    public String getAccidentsAdmin(@RequestParam(value = "accidentId") int accidentId) {
         accidentService.deleteById(accidentId);
         return "redirect:/accidentsAdmin";
     }

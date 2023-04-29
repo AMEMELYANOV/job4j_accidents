@@ -71,36 +71,34 @@ public class UserController {
     }
 
     /**
-     * Обрабатывает POST запрос, выполняется перенаправление на страницу списка инцидентов.
+     * Обрабатывает POST запрос, выполняется перенаправление на  входа.
      * При удачной валидации пользователя, пользователь обновляется в базе,
      * при неудачной валидации выполняется переадресация на страницу редактирования
      * пользователя с параметром password со значением true.
      *
      * @param user        пользователь сформированный из данных формы редактирования
      * @param oldPassword старый пароль пользователя
-     * @param request     запрос пользователя
-     * @return перенаправление на страницу списка задач
+     * @return перенаправление на страницу входа
      */
     @PostMapping("/userEdit")
     public String userEdit(@ModelAttribute User user,
-                           @RequestParam(value = "oldPassword") String oldPassword,
-                           HttpServletRequest request) {
-        User userFromDB = userService.findByUsername(user.getUsername());
+                           @RequestParam(value = "oldPassword") String oldPassword) {
         var currentUser = (org.springframework.security.core.userdetails.User) SecurityContextHolder
                 .getContext().getAuthentication().getPrincipal();
-        if (!currentUser.getUsername().equals(user.getUsername())
-                && userFromDB != null) {
+        User userFromDB = userService.findByUsername(currentUser.getUsername());
+
+        if (!userFromDB.getUsername().equals(user.getUsername())
+                && userService.findByUsername(user.getUsername()) != null) {
             return "redirect:/userEdit?username=true";
         }
-        if (oldPassword == null || (userFromDB != null && !oldPassword.equals(userFromDB.getPassword()))) {
+        if (oldPassword == null
+                || (!encoder.matches(oldPassword, userFromDB.getPassword()))) {
             return "redirect:/userEdit?password=true";
         }
-        user.setEnabled(true);
-        user.setPassword(encoder.encode(user.getPassword()));
-        user.setAuthority(authorityService.findByAuthority("ROLE_USER"));
-        userService.save(user);
-        request.getSession().setAttribute("user", user);
-        return "redirect:/tasks";
+        userFromDB.setUsername(user.getUsername());
+        userFromDB.setPassword(encoder.encode(user.getPassword()));
+        userService.save(userFromDB);
+        return "redirect:/login";
     }
 
     /**
@@ -124,8 +122,9 @@ public class UserController {
      * Обрабатывает POST запрос, сохраняет пользователя с измененной
      * ролью по переданному имени.
      *
-//     * @param username имя пользователя
-     * @param model модель
+     * @param user    пользователь
+     * @param newRole новая роль пользователя
+     * @param model   модель
      * @return страница списка пользователей
      */
     @PostMapping("/saveAuthority")
@@ -146,7 +145,7 @@ public class UserController {
      * по переданному имени.
      *
      * @param username имя пользователя
-     * @param model модель
+     * @param model    модель
      * @return страница списка пользователей
      */
     @PostMapping("/deleteUser")

@@ -4,6 +4,13 @@ import ru.job4j.accidents.model.User;
 
 import java.util.List;
 
+/**
+ * Сервис по работе с пользователями
+ *
+ * @author Alexander Emelyanov
+ * @version 1.0
+ * @see ru.job4j.accidents.model.User
+ */
 public interface UserService {
 
     /**

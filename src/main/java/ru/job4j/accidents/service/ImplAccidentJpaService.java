@@ -16,9 +16,9 @@ import java.util.stream.Collectors;
 /**
  * Реализация сервиса по работе с инцидентами
  *
- * @see ru.job4j.accidents.service.AccidentService
  * @author Alexander Emelyanov
  * @version 1.0
+ * @see ru.job4j.accidents.service.AccidentService
  */
 @AllArgsConstructor
 @Service
@@ -107,7 +107,7 @@ public class ImplAccidentJpaService implements AccidentService {
      * @param ids      массив идентификаторов статей
      * @param image    объект dto файла фотографии
      * @return инцидент при успешном сохранении или обновлении
-     * @exception NoSuchElementException если тип инцидента не найден в репозитории
+     * @throws NoSuchElementException если тип инцидента не найден в репозитории
      */
     @Override
     public Accident createOrUpdateAccident(Accident accident, String[] ids, FileDto image) {
@@ -222,7 +222,7 @@ public class ImplAccidentJpaService implements AccidentService {
     }
 
     /**
-     * Выполняет удаление инцидента по идентификатору.
+     * Выполняет обновление статуса инцидента.
      *
      * @param accident идентификатор задачи
      */

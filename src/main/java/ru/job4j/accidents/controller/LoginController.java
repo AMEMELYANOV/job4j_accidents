@@ -26,7 +26,7 @@ public class LoginController {
     /**
      * Объект для доступа к методам UserService
      */
-    private final ImplUserService implUserService;
+    private final ImplUserService userService;
 
     /**
      * Обрабатывает GET запрос, возвращает страницу входа пользователя.
