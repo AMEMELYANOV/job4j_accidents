@@ -7,6 +7,7 @@ import ru.job4j.accidents.repository.AuthorityRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Сервис по работе с ролями
@@ -32,7 +33,9 @@ public class ImplAuthorityService implements AuthorityService {
      */
     @Override
     public Authority findByAuthority(String authority) {
-        return authorityRepository.findByAuthority(authority);
+        return authorityRepository.findByAuthority(authority).orElseThrow(
+                () -> new NoSuchElementException(
+                        String.format("Роль с authority = %s не найдена", authority)));
     }
 
     /**

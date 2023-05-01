@@ -108,5 +108,5 @@ public interface AccidentService {
      *
      * @param accident идентификатор задачи
      */
-    void updateStatus(Accident accident);
+    Accident updateStatus(Accident accident);
 }

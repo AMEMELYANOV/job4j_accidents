@@ -8,7 +8,6 @@ import ru.job4j.accidents.model.*;
 import ru.job4j.accidents.repository.AccidentRepository;
 import ru.job4j.accidents.repository.AccidentTypeRepository;
 import ru.job4j.accidents.repository.RuleRepository;
-import ru.job4j.accidents.repository.UserRepository;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -43,7 +42,11 @@ public class ImplAccidentJpaService implements AccidentService {
      * Объект для доступа к методам FileService
      */
     private final FileService fileService;
-    private final UserRepository userRepository;
+
+    /**
+     * Объект для доступа к методам FileService
+     */
+    private final UserService userService;
 
     /**
      * Возвращает список всех инцидентов.
@@ -111,7 +114,8 @@ public class ImplAccidentJpaService implements AccidentService {
      */
     @Override
     public Accident createOrUpdateAccident(Accident accident, String[] ids, FileDto image) {
-        User user = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        User user = userService.findByUsername(SecurityContextHolder.getContext()
+                .getAuthentication().getName());
         int typeId = accident.getType().getId();
         AccidentType type = accidentTypeRepository.findById(typeId).orElseThrow(
                 () -> new NoSuchElementException(String.format(
@@ -195,7 +199,10 @@ public class ImplAccidentJpaService implements AccidentService {
     @Override
     public Set<Rule> findRulesByIds(String[] ids) {
         return Arrays.stream(ids).map(Integer::parseInt)
-                .map(this::findRuleById).collect(Collectors.toSet());
+                .map(ruleRepository::findById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toSet());
     }
 
     /**
@@ -216,7 +223,7 @@ public class ImplAccidentJpaService implements AccidentService {
      * @param accident идентификатор задачи
      */
     @Override
-    public void updateStatus(Accident accident) {
-        accidentRepository.save(accident);
+    public Accident updateStatus(Accident accident) {
+        return accidentRepository.save(accident);
     }
 }

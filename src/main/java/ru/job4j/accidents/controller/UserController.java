@@ -13,9 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.accidents.model.User;
 import ru.job4j.accidents.service.ImplAuthorityService;
 import ru.job4j.accidents.service.ImplUserService;
-import org.springframework.security.core.userdetails.*;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Контроллер пользователя

@@ -4,6 +4,8 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import ru.job4j.accidents.model.Authority;
 
+import java.util.Optional;
+
 /**
  * Хранилище ролей
  *
@@ -20,5 +22,5 @@ public interface AuthorityRepository extends CrudRepository<Authority, Integer> 
      * @param authority наименование роли
      * @return роль пользователя
      */
-    Authority findByAuthority(String authority);
+    Optional<Authority> findByAuthority(String authority);
 }
