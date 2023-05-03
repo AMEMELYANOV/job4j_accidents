@@ -20,7 +20,7 @@ public class LiquibaseConfig {
      * параметры считываются из файла /resources/liquibase-changeLog.xml.
      *
      * @param ds источник данных
-     * @return объект источника данных
+     * @return объект миграции данных
      */
     @Bean
     public SpringLiquibase liquibase(DataSource ds) {

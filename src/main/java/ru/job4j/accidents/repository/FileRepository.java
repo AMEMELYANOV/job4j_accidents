@@ -7,9 +7,9 @@ import ru.job4j.accidents.model.File;
 /**
  * Хранилище файлов фотографий
  *
+ * @see ru.job4j.accidents.model.Authority
  * @author Alexander Emelyanov
  * @version 1.0
- * @see ru.job4j.accidents.model.Authority
  */
 @Repository
 public interface FileRepository extends CrudRepository<File, Integer> {
