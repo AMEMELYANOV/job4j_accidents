@@ -22,8 +22,5 @@ public class Application {
         SpringApplication.run(Application.class, args);
         System.out.println("Go to http://localhost:8080");
 
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String pwd = encoder.encode("111");
-        System.out.println(pwd);
     }
 }

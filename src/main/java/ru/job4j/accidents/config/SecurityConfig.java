@@ -3,13 +3,15 @@ package ru.job4j.accidents.config;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.provisioning.UserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
 
 import javax.sql.DataSource;
 
@@ -23,7 +25,7 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @AllArgsConstructor
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig {
 
     /**
      * Источник данных
@@ -46,19 +48,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * пользователей для выполнения аутентификации.
      * Реализация использует менеджер аутентификации через JDBC.
      *
-     * @param auth объект для аутентификации пользователей
+     * @return объект для работы с пользователями
      */
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication().dataSource(dataSource)
-                .usersByUsernameQuery("select username, password, enabled "
-                        + "from users "
-                        + "where username = ?")
-                .authoritiesByUsernameQuery(
-                        "select u.username, a.authority "
-                                + "from authorities as a, users as u "
-                                + "where u.username = ? and u.authority_id = a.id"
-                );
+    @Bean
+    public UserDetailsManager authenticateUsers() {
+        JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
+        users.setUsersByUsernameQuery("SELECT username, password, enabled "
+                + "FROM users WHERE username = ?");
+        users.setAuthoritiesByUsernameQuery(
+                "SELECT u.username, a.authority "
+                        + "FROM authorities as a, users as u "
+                        + "WHERE u.username = ? AND u.authority_id = a.id"
+        );
+        return users;
     }
 
     /**
@@ -66,8 +68,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      *
      * @param http объект HttpSecurity для которого выполняется настройка авторизации
      */
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/login", "/registration")
                 .permitAll()
@@ -87,5 +89,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf()
                 .disable();
+        return http.build();
     }
 }
