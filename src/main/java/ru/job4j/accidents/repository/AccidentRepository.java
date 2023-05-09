@@ -6,9 +6,9 @@ import ru.job4j.accidents.model.Accident;
 /**
  * Хранилище инцидентов
  *
- * @see ru.job4j.accidents.model.Accident
  * @author Alexander Emelyanov
  * @version 1.0
+ * @see ru.job4j.accidents.model.Accident
  */
 public interface AccidentRepository extends CrudRepository<Accident, Integer> {
 }

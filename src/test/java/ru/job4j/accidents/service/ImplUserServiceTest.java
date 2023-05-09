@@ -9,12 +9,20 @@ import ru.job4j.accidents.model.Authority;
 import ru.job4j.accidents.model.User;
 import ru.job4j.accidents.repository.UserRepository;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doReturn;
 
+/**
+ * Тест класс реализации сервисного слоя
+ *
+ * @author Alexander Emelyanov
+ * @version 1.0
+ * @see ru.job4j.accidents.service.ImplUserService
+ */
 @SpringBootTest(classes = Application.class)
 class ImplUserServiceTest {
 

@@ -18,6 +18,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doReturn;
 
+/**
+ * Тест класс реализации сервисного слоя
+ *
+ * @author Alexander Emelyanov
+ * @version 1.0
+ * @see ru.job4j.accidents.service.ImplAccidentJpaServiceTest
+ */
 @SpringBootTest(classes = Application.class)
 class ImplAccidentJpaServiceTest {
 

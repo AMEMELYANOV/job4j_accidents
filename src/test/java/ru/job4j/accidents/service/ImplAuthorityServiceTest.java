@@ -14,17 +14,24 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doReturn;
 
+/**
+ * Тест класс реализации сервисного слоя
+ *
+ * @author Alexander Emelyanov
+ * @version 1.0
+ * @see ru.job4j.accidents.service.ImplAuthorityService
+ */
 @SpringBootTest(classes = Application.class)
 class ImplAuthorityServiceTest {
 
     /**
-     * Объект заглушка для UserRepository
+     * Объект заглушка для AuthorityRepository
      */
     @MockBean
     private AuthorityRepository authorityRepository;
 
     /**
-     * Объект для доступа к методам UserService
+     * Объект для доступа к методам AuthorityService
      */
     private AuthorityService authorityService;
 

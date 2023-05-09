@@ -8,14 +8,13 @@ import ru.job4j.accidents.repository.UserRepository;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 /**
- * Сервис по работе с пользователями
+ * Реализация сервиса по работе с пользователями
  *
- * @see ru.job4j.accidents.model.User
  * @author Alexander Emelyanov
  * @version 1.0
+ * @see ru.job4j.accidents.service.UserService
  */
 @Service
 @AllArgsConstructor

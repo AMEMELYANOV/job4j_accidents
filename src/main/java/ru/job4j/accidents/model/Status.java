@@ -45,7 +45,7 @@ public enum Status {
     /**
      * Геттер
      *
-     * @return  displayName имя перечисления
+     * @return displayName имя перечисления
      */
     public String getDisplayName() {
         return displayName;

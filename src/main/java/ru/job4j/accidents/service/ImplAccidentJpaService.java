@@ -15,9 +15,9 @@ import java.util.stream.Collectors;
 /**
  * Реализация сервиса по работе с инцидентами
  *
- * @see ru.job4j.accidents.service.AccidentService
  * @author Alexander Emelyanov
  * @version 1.0
+ * @see ru.job4j.accidents.service.AccidentService
  */
 @AllArgsConstructor
 @Service

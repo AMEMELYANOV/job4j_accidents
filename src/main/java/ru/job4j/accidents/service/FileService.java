@@ -8,9 +8,9 @@ import java.util.Optional;
 /**
  * Сервис по работе с файлами
  *
- * @see ru.job4j.accidents.model.File
  * @author Alexander Emelyanov
  * @version 1.0
+ * @see ru.job4j.accidents.model.File
  */
 public interface FileService {
 

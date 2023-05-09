@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
- * Сервис по работе с ролями
+ * Реализация сервиса по работе с ролями
  *
- * @see ru.job4j.accidents.model.Accident
  * @author Alexander Emelyanov
  * @version 1.0
+ * @see ru.job4j.accidents.service.AuthorityService
  */
 @Service
 @AllArgsConstructor

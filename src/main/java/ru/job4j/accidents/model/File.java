@@ -39,6 +39,7 @@ public class File {
 
     /**
      * Конструктор
+     *
      * @param name имя файла
      * @param path путь к файлу
      */

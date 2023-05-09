@@ -230,7 +230,7 @@ class AccidentControllerTest {
                 MediaType.IMAGE_JPEG_VALUE,
                 "photo".getBytes()
         );
-        String[] rIds = new String[] {"1"};
+        String[] rIds = new String[]{"1"};
 
         this.mockMvc.perform(multipart("/saveAccident")
                         .file(file)

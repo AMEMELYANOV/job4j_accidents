@@ -15,9 +15,9 @@ import java.util.UUID;
 /**
  * Реализация сервиса по работе с инцидентами
  *
- * @see ru.job4j.accidents.service.FileService
  * @author Alexander Emelyanov
  * @version 1.0
+ * @see ru.job4j.accidents.service.FileService
  */
 @Service
 public class ImplFileService implements FileService {
@@ -34,7 +34,8 @@ public class ImplFileService implements FileService {
 
     /**
      * Конструктор
-     * @param fileRepository репозиторий файлов
+     *
+     * @param fileRepository   репозиторий файлов
      * @param storageDirectory директория для хранения файлов
      */
     public ImplFileService(FileRepository fileRepository,
@@ -85,7 +86,7 @@ public class ImplFileService implements FileService {
     /**
      * Записывает байтовое представление в директорию сохранения файлов.
      *
-     * @param path путь файла для записи
+     * @param path    путь файла для записи
      * @param content байтовый массив данных файла
      */
     private void writeFileBytes(String path, byte[] content) {
