@@ -1,0 +1,26 @@
+version: "3"
+services:
+  db_accidents:
+    image: postgres
+    container_name: db_accidents
+    volumes:
+      - ./db/accidents/data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=accidents
+      - PGDATA=/var/lib/postgresql/data
+    restart: always
+  accidents_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: accidents_app
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db_accidents:5432/accidents
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=password
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db_accidents

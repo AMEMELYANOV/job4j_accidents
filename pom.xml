@@ -97,10 +97,10 @@
             <artifactId>thymeleaf-extras-springsecurity5</artifactId>
         </dependency>
 
-
     </dependencies>
 
     <build>
+        <finalName>accidents</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -129,6 +129,10 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
