@@ -11,11 +11,11 @@ services:
       - POSTGRES_DB=accidents
       - PGDATA=/var/lib/postgresql/data
     restart: always
-  accidents_app:
+  app_accidents:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: accidents_app
+    container_name: app_accidents
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db_accidents:5432/accidents
       - SPRING_DATASOURCE_USERNAME=postgres
